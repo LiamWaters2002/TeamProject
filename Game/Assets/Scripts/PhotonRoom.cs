@@ -19,7 +19,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     //buttons
     [SerializeField]
-    private GameObject Start;
+    private GameObject StartBtn;
     [SerializeField]
     private GameObject Load;
     private GameObject Leave;
@@ -90,7 +90,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
         PlayerCountUpdate();
         if (PhotonNetwork.IsMasterClient)
         {
-            view.RPC("RPC_Timer", RpcTarget.Others, startCountDown);
+            view.RPC("RPC_SyncTimer", RpcTarget.Others, startCountDown);
         }
     }
 
@@ -137,18 +137,19 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     {
         if(playerCount <= 1)
         {
-            Start.SetActive(false);
+            StartBtn.SetActive(false);
             ResetTimer();
         }
 
         if (gameReady)
         {
-            Start.SetActive(true);
+            StartBtn.SetActive(true);
             fullGameTimer -= Time.deltaTime;
             timerToStartGame = fullGameTimer;
         }
         else if (startCountDown)
         {
+            StartBtn.SetActive(true);
             notFullGameTimer -= Time.deltaTime;
             timerToStartGame = notFullGameTimer;
         }

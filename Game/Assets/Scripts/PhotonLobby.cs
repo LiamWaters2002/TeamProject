@@ -16,6 +16,15 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
     //Player Info
     Player[] players;
 
+    //In-game popups
+    [SerializeField]
+    public GameObject popupBox;
+    [SerializeField]
+    public Button exitPopupBtn;
+    [SerializeField]
+    public Text errorMessage;
+
+
     //Textboxes
     [SerializeField]
     private Text lobbyName;
@@ -60,27 +69,32 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
         PhotonNetwork.AutomaticallySyncScene = true;
     }
 
-    //public void JoinRoom()
-    //{
-        //PhotonNetwork.JoinRoom(lobbyName.text);
-    //}
+    public void JoinRoom()
+    {
+        PhotonNetwork.JoinRoom(lobbyName.text);
+    }
 
     /// <summary>
     /// Create a room using a random number generator for its name.
     /// </summary>
     public void CreateRoom()
     {
-        Debug.Log("1");
-        int randomRoomNum = Random.Range(1, MAX_ROOMS_COUNT);
         RoomOptions roomOptions = new RoomOptions()
         {
             IsVisible = true,
             IsOpen = true,
             MaxPlayers = MAX_PLAYER_COUNT
         };
-        Debug.Log("2");
-        PhotonNetwork.CreateRoom("Room" + randomRoomNum, roomOptions);//Create room
-        Debug.Log("3");
+        if (lobbyName.text == "") 
+        {
+            int randomRoomNum = Random.Range(1, MAX_ROOMS_COUNT);
+            PhotonNetwork.CreateRoom("Room" + randomRoomNum, roomOptions);//Create room
+        }
+        else
+        {
+            PhotonNetwork.CreateRoom(lobbyName.text, roomOptions);//Create room
+        }
+        
     }
 
     /// <summary>
@@ -90,8 +104,13 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
     /// <param name="message">Error message</param>
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
-        Debug.Log("Trid to create room but faild, there must already be a room with the same name");
-        CreateRoom();
+        errorMessage.text = "Failed to create room due to: Identical name to an existing room. Try a different name.";
+        popupBox.SetActive(true);
+    }
+
+    public void exitPopup()
+    {
+        popupBox.SetActive(false);
     }
 
     /// <summary>

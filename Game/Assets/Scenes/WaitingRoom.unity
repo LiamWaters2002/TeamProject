@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 153746269}
   - component: {fileID: 153746268}
   - component: {fileID: 153746270}
+  - component: {fileID: 153746271}
   m_Layer: 0
   m_Name: PhotonRoomController
   m_TagString: Untagged
@@ -156,7 +157,7 @@ MonoBehaviour:
   roomSize: 5
   minPlayersToStart: 1
   playerCount: 0
-  Start: {fileID: 1942349133}
+  StartBtn: {fileID: 1942349133}
   Load: {fileID: 1265999341}
   lobbyScene: 0
   gameScene: 2
@@ -164,7 +165,7 @@ MonoBehaviour:
   timerToStartDisplay: {fileID: 2117347175}
   roomName: {fileID: 1317740862}
   maxWaitTime: 30
-  maxFullGameWaitTime: 5
+  maxFullGameWaitTime: 15
 --- !u!4 &153746269
 Transform:
   m_ObjectHideFlags: 0
@@ -201,6 +202,30 @@ MonoBehaviour:
   sceneViewId: 1
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &153746271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 153746267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd9530b79e04dd5469eee6202db38819, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roomSize: 4
+  minPlayersToStart: 2
+  playerCount: 16
+  StartBtn: {fileID: 1942349133}
+  Load: {fileID: 1265999341}
+  lobbyScene: 0
+  gameScene: 2
+  playerCountDisplay: {fileID: 872381986}
+  timerToStartDisplay: {fileID: 2117347175}
+  roomName: {fileID: 1317740862}
+  maxWaitTime: 30
+  maxFullGameWaitTime: 5
 --- !u!1 &467653279
 GameObject:
   m_ObjectHideFlags: 0
