@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class NewBehaviourScript : MonoBehaviour
+public class NewBehaviourScript : MonoBehaviourPun, IPunObservable
 {
     public float moveSpeed;
     public float jumpForce;
@@ -23,38 +24,68 @@ public class NewBehaviourScript : MonoBehaviour
     public GameObject snowBall;
     public Transform Throwpoint;
 
+    private PhotonView phoyonView;
+    private Vector2 smoothMove;
+
     void Start()
     {
         theRB = GetComponent<Rigidbody2D>();
+        photonView.GetComponent<PhotonView>();
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        isGrounded = Physics2D.OverlapCircle(groundCheckPoint.position, groundCheckRadius, whatIsGround);
-
-
-
-        if(Input.GetKey(left))
+        if (photonView.IsMine)
         {
-            theRB.velocity = new Vector2(-moveSpeed, theRB.velocity.y);
-        } else if (Input.GetKey(right))
+            isGrounded = Physics2D.OverlapCircle(groundCheckPoint.position, groundCheckRadius, whatIsGround);
+            Vector2 characterDirection = transform.localScale;
+
+            if(Input.GetKey(left))
+            {
+                theRB.velocity = new Vector2(-moveSpeed, theRB.velocity.y);
+                characterDirection.x = -1; 
+            } else if (Input.GetKey(right))
+            {
+                theRB.velocity = new Vector2(moveSpeed, theRB.velocity.y);
+                characterDirection.x = 1;
+            } else
+            {
+                theRB.velocity = new Vector2(0, theRB.velocity.y);
+            }
+            transform.localScale = characterDirection; //Change direction
+
+            if(Input.GetKeyDown (jump)  && isGrounded)
+            {
+                theRB.velocity = new Vector2(theRB.velocity.x, jumpForce);
+            }
+
+            if (Input.GetKeyDown(attack))
+            {
+                Instantiate(snowBall, Throwpoint.position, Throwpoint.rotation);
+            }
+        }
+        else
         {
-            theRB.velocity = new Vector2(moveSpeed, theRB.velocity.y);
-        } else
-        {
-            theRB.velocity = new Vector2(0, theRB.velocity.y);
+            smoothMovement();
         }
 
-        if(Input.GetKeyDown (jump)  && isGrounded)
+        void smoothMovement()
         {
-            theRB.velocity = new Vector2(theRB.velocity.x, jumpForce);
+            transform.position = Vector2.Lerp(transform.position, smoothMove, Time.deltaTime*10);
         }
+        
+    }
 
-        if (Input.GetKeyDown(attack))
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)//Sending position when player is moving
         {
-            Instantiate(snowBall, Throwpoint.position, Throwpoint.rotation);
+            stream.SendNext(transform.position);
+        }
+        else if (stream.IsReading)//Recieving position
+        {
+            smoothMove = (Vector2) stream.ReceiveNext();
         }
     }
 }
