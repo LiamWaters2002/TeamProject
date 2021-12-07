@@ -132,7 +132,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 153746269}
-  - component: {fileID: 153746268}
   - component: {fileID: 153746270}
   - component: {fileID: 153746271}
   m_Layer: 0
@@ -142,30 +141,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &153746268
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 153746267}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07d87f1589e0a4140852d1d3a1b0fa73, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  roomSize: 5
-  minPlayersToStart: 1
-  playerCount: 0
-  StartBtn: {fileID: 1942349133}
-  Load: {fileID: 1265999341}
-  lobbyScene: 0
-  gameScene: 2
-  playerCountDisplay: {fileID: 872381986}
-  timerToStartDisplay: {fileID: 2117347175}
-  roomName: {fileID: 1317740862}
-  maxWaitTime: 30
-  maxFullGameWaitTime: 15
 --- !u!4 &153746269
 Transform:
   m_ObjectHideFlags: 0
@@ -571,7 +546,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 153746268}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PhotonRoom, Assembly-CSharp
         m_MethodName: DelayCancel
         m_Mode: 1
@@ -1371,7 +1346,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 153746268}
+      - m_Target: {fileID: 153746271}
         m_TargetAssemblyTypeName: PhotonRoom, Assembly-CSharp
         m_MethodName: StartGame
         m_Mode: 1
