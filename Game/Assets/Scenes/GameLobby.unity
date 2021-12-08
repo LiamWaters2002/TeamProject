@@ -231,7 +231,7 @@ MonoBehaviour:
   popupBox: {fileID: 816301989}
   exitPopupBtn: {fileID: 87673893}
   errorMessage: {fileID: 880647043}
-  lobbyName: {fileID: 1541382256}
+  lobbyName: {fileID: 1985697117}
   username: {fileID: 1541382256}
   NewRoomButton: {fileID: 1642731997}
   JoinRoomButton: {fileID: 390193323}
@@ -333,7 +333,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 49297961}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9968038
+  m_Size: 0.8863323
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1574,7 +1574,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000003998764}
+  m_AnchoredPosition: {x: 0, y: 0.0008775676}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1010034584
@@ -2820,7 +2820,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 571472828}
   m_HandleRect: {fileID: 571472827}
   m_Direction: 0
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:

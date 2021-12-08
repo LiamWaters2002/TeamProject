@@ -217,7 +217,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &263779689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,20 +230,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd6c3186ed4ae164a8e45ce12a05c881, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 10
-  jumpForce: 20
-  left: 97
-  right: 100
-  jump: 119
-  attack: 101
-  groundCheckPoint: {fileID: 1723773851}
-  groundCheckRadius: 0.2
+  speed: 0
+  jumpForce: 0
+  groundCheckPoint: {fileID: 0}
+  groundCheckRadius: 0
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 0
   isGrounded: 0
-  snowBall: {fileID: 3868894478559247087, guid: eee652bedfad73147b974170954db6ff, type: 3}
-  Throwpoint: {fileID: 468806165}
+  snowBall: {fileID: 0}
+  Throwpoint: {fileID: 0}
 --- !u!50 &263779690
 Rigidbody2D:
   serializedVersion: 4
@@ -908,7 +904,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &981278049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -921,20 +917,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd6c3186ed4ae164a8e45ce12a05c881, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 10
-  jumpForce: 20
-  left: 276
-  right: 275
-  jump: 273
-  attack: 274
-  groundCheckPoint: {fileID: 1313359066}
-  groundCheckRadius: 0.2
+  speed: 0
+  jumpForce: 0
+  groundCheckPoint: {fileID: 0}
+  groundCheckRadius: 0
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 0
   isGrounded: 0
-  snowBall: {fileID: 3868894478559247087, guid: eee652bedfad73147b974170954db6ff, type: 3}
-  Throwpoint: {fileID: 904071824}
+  snowBall: {fileID: 0}
+  Throwpoint: {fileID: 0}
 --- !u!50 &981278050
 Rigidbody2D:
   serializedVersion: 4
@@ -1412,6 +1404,54 @@ Transform:
   m_Children: []
   m_Father: {fileID: 981278053}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1346598135
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1346598137}
+  - component: {fileID: 1346598136}
+  m_Layer: 0
+  m_Name: SpawnPlayers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1346598136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1346598135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5273a8558de70e4a9f5835334168619, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 5433982198400761085, guid: 347127c1580f0b54aa961c78b12131bd, type: 3}
+  minX: 3.5
+  minY: -3.5
+  maxX: 6
+  maxY: -3.5
+--- !u!4 &1346598137
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1346598135}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 267.2343, y: 180.41425, z: -160.12373}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1385484160
 GameObject:

@@ -65,7 +65,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log("Connected to the Photon cloud server");
-        
+        PhotonNetwork.JoinLobby();//new
         PhotonNetwork.AutomaticallySyncScene = true;
     }
 
