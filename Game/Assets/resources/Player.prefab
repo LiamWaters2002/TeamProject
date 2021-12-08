@@ -217,6 +217,7 @@ MonoBehaviour:
   observableSearch: 0
   ObservedComponents:
   - {fileID: 2709361740413617928}
+  - {fileID: 0}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -288,5 +289,5 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   isGrounded: 0
-  snowBall: {fileID: 3868894478559247087, guid: eee652bedfad73147b974170954db6ff, type: 3}
+  Shurican: {fileID: 3868894478559247087, guid: eee652bedfad73147b974170954db6ff, type: 3}
   Throwpoint: {fileID: 5433982198290524941}

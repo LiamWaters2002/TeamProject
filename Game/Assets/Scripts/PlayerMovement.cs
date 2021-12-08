@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
 
     public bool isGrounded;
 
-    public GameObject snowBall;
+    public GameObject Shurican;
     public Transform Throwpoint;
 
     void Start()
@@ -28,7 +28,6 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         x = Input.GetAxis("Horizontal");//left = -1, nothing = 0, right = 1
-
 
         transform.position += (Vector3) new Vector2(x * speed * Time.deltaTime, 0);
 
@@ -52,8 +51,9 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.Mouse1))
         {
-            Instantiate(snowBall, Throwpoint.position, Throwpoint.rotation);
+            PhotonNetwork.Instantiate(Shurican.name, Throwpoint.position, Throwpoint.rotation);//Throw shurican
         }
+
 
     }
 }
