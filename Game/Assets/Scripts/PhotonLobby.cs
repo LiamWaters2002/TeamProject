@@ -71,6 +71,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     public void JoinRoom()
     {
+        PhotonNetwork.NickName = username.text;
         PhotonNetwork.JoinRoom(lobbyName.text);
     }
 
@@ -118,6 +119,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
     /// </summary>
     public void JoinRandomRoom()
     {
+        PhotonNetwork.NickName = username.text;
         PhotonNetwork.JoinRandomRoom();
     }
     /// <summary>
@@ -144,7 +146,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
     /// </summary>
     public override void OnJoinedRoom()
     {
-        //PhotonNetwork.NickName = username.text;
+        PhotonNetwork.NickName = username.text;
         SceneManager.LoadScene(roomScene);
     }
 
