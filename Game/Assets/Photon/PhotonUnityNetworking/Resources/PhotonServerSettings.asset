@@ -42,6 +42,8 @@ MonoBehaviour:
   - RPC_SyncTimer
   - OnDirectionChange_LEFT
   - OnDirectionChange_RIGHT
+  - changePlayerColour
+  - RPCtimer
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

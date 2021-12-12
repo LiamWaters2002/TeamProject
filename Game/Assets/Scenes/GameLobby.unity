@@ -227,7 +227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba20ad42ad616dc418c42bd3f498804f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomScene: 1
+  roomScene: 2
   popupBox: {fileID: 816301989}
   exitPopupBtn: {fileID: 87673893}
   errorMessage: {fileID: 880647043}
@@ -333,7 +333,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 49297961}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.8863323
+  m_Size: 0.99999857
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1574,7 +1574,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.0008775676}
+  m_AnchoredPosition: {x: 0, y: 0.00002990562}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1010034584
@@ -1819,8 +1819,8 @@ MonoBehaviour:
   playerCount: 30
   StartBtn: {fileID: 0}
   Load: {fileID: 0}
-  lobbyScene: 0
-  gameScene: 2
+  lobbyScene: 1
+  gameScene: 3
   playerCountDisplay: {fileID: 0}
   timerToStartDisplay: {fileID: 0}
   roomName: {fileID: 0}
@@ -2820,8 +2820,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 571472828}
   m_HandleRect: {fileID: 571472827}
   m_Direction: 0
-  m_Value: 1
-  m_Size: 1
+  m_Value: 0
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

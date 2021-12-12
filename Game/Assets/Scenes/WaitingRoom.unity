@@ -194,8 +194,8 @@ MonoBehaviour:
   playerCount: 16
   StartBtn: {fileID: 1942349133}
   Load: {fileID: 1265999341}
-  lobbyScene: 0
-  gameScene: 2
+  lobbyScene: 1
+  gameScene: 3
   playerCountDisplay: {fileID: 872381986}
   timerToStartDisplay: {fileID: 2117347175}
   roomName: {fileID: 1317740862}

@@ -90,12 +90,12 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
         PlayerCountUpdate();
         if (PhotonNetwork.IsMasterClient)
         {
-            view.RPC("RPC_SyncTimer", RpcTarget.Others, startCountDown);
+            view.RPC("RPCtimer", RpcTarget.Others, startCountDown);
         }
     }
 
     [PunRPC]
-    private void RPC_SyncTimer(float timeIn)
+    private void RPCtimer(float timeIn)
     {
         timerToStartGame = timeIn;
         notFullGameTimer = timeIn;

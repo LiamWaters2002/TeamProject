@@ -11,7 +11,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
     public static PhotonLobby lobby;
 
     [SerializeField]
-    private int roomScene = 1;
+    private int roomScene = 2;
 
     //Player Info
     Player[] players;
@@ -40,7 +40,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
     private GameObject JoinRandomButton;
 
     //Room setting constants...
-    const int MAX_ROOMS_COUNT= 20;
+    const int MAX_ROOMS_COUNT = 20;
     const int MAX_PLAYER_COUNT = 4;
 
     /// <summary>
@@ -49,6 +49,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
     private void Awake()
     {
         lobby = this;
+        PhotonNetwork.ConnectUsingSettings();
     }
 
     /// <summary>
@@ -56,7 +57,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
     /// </summary>
     void Start()
     {
-        PhotonNetwork.ConnectUsingSettings();
+
     }
 
     /// <summary>
@@ -80,22 +81,31 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
     /// </summary>
     public void CreateRoom()
     {
-        RoomOptions roomOptions = new RoomOptions()
+        if (username.text != "")
         {
-            IsVisible = true,
-            IsOpen = true,
-            MaxPlayers = MAX_PLAYER_COUNT
-        };
-        if (lobbyName.text == "") 
-        {
-            int randomRoomNum = Random.Range(1, MAX_ROOMS_COUNT);
-            PhotonNetwork.CreateRoom("Room" + randomRoomNum, roomOptions);//Create room
+            RoomOptions roomOptions = new RoomOptions()
+            {
+                IsVisible = true,
+                IsOpen = true,
+                MaxPlayers = MAX_PLAYER_COUNT
+            };
+            if (lobbyName.text == "")
+            {
+                int randomRoomNum = Random.Range(1, MAX_ROOMS_COUNT);
+                PhotonNetwork.CreateRoom("Room" + randomRoomNum, roomOptions);//Create room
+            }
+            else
+            {
+                PhotonNetwork.CreateRoom(lobbyName.text, roomOptions);//Create room
+            }
         }
         else
         {
-            PhotonNetwork.CreateRoom(lobbyName.text, roomOptions);//Create room
+            errorMessage.text = "Please enter a username before creating / joining a room.";
+            popupBox.SetActive(true);
         }
-        
+
+
     }
 
     /// <summary>
@@ -119,8 +129,17 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
     /// </summary>
     public void JoinRandomRoom()
     {
-        PhotonNetwork.NickName = username.text;
-        PhotonNetwork.JoinRandomRoom();
+        if (username.text != "")
+        {
+            PhotonNetwork.NickName = username.text;
+            PhotonNetwork.JoinRandomRoom();
+        }
+        else
+        {
+            errorMessage.text = "Please enter a username before creating / joining a room.";
+            popupBox.SetActive(true);
+        }
+
     }
     /// <summary>
     /// When joining a random server has failed.
@@ -129,7 +148,8 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
     /// <param name="message">Error message</param>
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
-        Debug.Log("Tried to join random game, but failed. Seems like there is no open lobbies avaliable.");
+        errorMessage.text = "Tried to join random game, but failed. Seems like there is no open lobbies avaliable.";
+        popupBox.SetActive(true);
     }
 
     /// <summary>
@@ -146,8 +166,19 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
     /// </summary>
     public override void OnJoinedRoom()
     {
-        PhotonNetwork.NickName = username.text;
-        SceneManager.LoadScene(roomScene);
+        if (username.text != "")
+        {
+            PhotonNetwork.NickName = username.text;
+            SceneManager.LoadScene(roomScene);
+        }
+        else
+        {
+            errorMessage.text = "Please enter a username before creating / joining a room.";
+            popupBox.SetActive(true);
+        }
+
     }
 
 }
+
+        

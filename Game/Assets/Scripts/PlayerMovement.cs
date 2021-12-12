@@ -26,6 +26,10 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
     public PhotonView pv;
 
     public SpriteRenderer spriteRenderer;
+    [SerializeField]
+    private Sprite[] sprites;
+    public ArrayList takenSprites = new ArrayList();
+
     public Text playerNameText;
 
     void Start()
@@ -34,6 +38,10 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
         if (photonView.IsMine)
         {
             playerNameText.text = PhotonNetwork.NickName;
+
+            //Random Sprites
+            int index = randomPlayerColour();
+            pv.RPC("changePlayerColour", RpcTarget.Others, index);
         }
         else
         {
@@ -95,9 +103,43 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
             {
                 PhotonNetwork.Instantiate(Shurican.name, Throwpoint.position, Throwpoint.rotation);//Throw shurican
             }
-            
         }
 
+        //Change colour of player if not all sprites are taken.
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+
+            int index = randomPlayerColour();
+
+            pv.RPC("changePlayerColour", RpcTarget.Others, index);
+
+        }
+
+    }
+
+    public int randomPlayerColour()
+    {
+        int index = Random.Range(0, 4);
+        if (takenSprites.Contains(sprites[index]))
+        {
+            while (takenSprites.Contains(sprites[index]))
+            {
+                index = Random.Range(0, 4);
+            }
+
+        }
+        takenSprites.Remove(spriteRenderer.sprite);
+        takenSprites.Add(sprites[index]);
+        spriteRenderer.sprite = sprites[index];
+        return index;
+    }
+
+    [PunRPC]
+    void changePlayerColour(int index)
+    {
+        takenSprites.Remove(spriteRenderer.sprite);
+        takenSprites.Add(sprites[index]);
+        spriteRenderer.sprite = sprites[index];
     }
 
     [PunRPC]
