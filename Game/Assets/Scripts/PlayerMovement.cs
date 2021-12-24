@@ -8,31 +8,41 @@ using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviourPun, IPunObservable
 {
+    //Player Movement
     public float speed;
     public float jumpForce;
-
-    private float x;
     private Rigidbody2D rigidbody;
 
+    //Ground Check
     public Transform groundCheckPoint;
     public float groundCheckRadius;
     public LayerMask whatIsGround;
-
     public bool isGrounded;
+
+    //Scene
     public int lobbyScene = 1;
+    [SerializeField]
+    private GameObject sceneCamera;
+    [SerializeField]
+    public GameObject playerCamera;
 
-    private Vector3 smoothMove;
+    //Make other player movement smoother
+    private Vector3 otherMove;
 
+    //Projectiles
     public GameObject Shurican;
     public Transform Throwpoint;
 
+    //Photon View
     public PhotonView pv;
 
+    //Sprites
     public SpriteRenderer spriteRenderer;
     [SerializeField]
     private Sprite[] sprites;
     public ArrayList takenSprites = new ArrayList();
 
+    //Turn-based Mechanics
     public Queue<string> playerTurnOrder;
     public Text playerNameText;
     [SerializeField]
@@ -49,14 +59,22 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
         
         if (photonView.IsMine)
         {
+            //Display player's username
             playerNameText.text = PhotonNetwork.NickName;
 
             //Random Sprites
             int index = randomPlayerColour();
             pv.RPC("changePlayerColour", RpcTarget.Others, index);
+
+            //Camera - lines below are to be used later on...
+            sceneCamera = GameObject.Find("SceneCamera");
+            sceneCamera.SetActive(false);
+            playerCamera.SetActive(true);
+            //playerCamera.SetActive(false);
         }
         else
         {
+            //Display other usernames
             playerNameText.text = pv.Owner.NickName;
         }
 
@@ -115,7 +133,7 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
 
     private void smoothMovement()
     {
-        transform.position = Vector3.Lerp(transform.position, smoothMove, Time.deltaTime * 10);
+        transform.position = Vector3.Lerp(transform.position, otherMove, Time.deltaTime * 10);
     }
 
     private void ProcessInputs()
@@ -141,7 +159,7 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
 
             isGrounded = Physics2D.OverlapCircle(groundCheckPoint.position, groundCheckRadius, whatIsGround);
 
-            if (isGrounded && (Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)))
+            if (isGrounded && (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)))
             {
                 rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             }
@@ -172,7 +190,22 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
 
             pv.RPC("changePlayerColour", RpcTarget.Others, index);
 
-        }    
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (sceneCamera.activeSelf == false)
+            {
+                sceneCamera.SetActive(true);
+                playerCamera.SetActive(false);
+            }
+            else
+            {
+                sceneCamera.SetActive(false);
+                playerCamera.SetActive(true);
+            }
+
+        }
     }
 
     public int randomPlayerColour()
@@ -249,7 +282,7 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
         }
         else if (stream.IsReading)
         {
-            smoothMove = (Vector3)stream.ReceiveNext();
+            otherMove = (Vector3)stream.ReceiveNext();
         }
 
     }
