@@ -31,7 +31,19 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
 
     //Projectiles
     public GameObject Shurican;
+    public Shurican shuricanInstance;
     public Transform Throwpoint;
+    float pushForce = 4f;
+
+    //Aiming
+    public Trajectory trajectory;
+    Vector2 startPoint; //start position of mouse click
+    Vector2 endPoint; //end position of mouse click
+    Vector2 direction;
+    Vector2 force;
+    float distance; //distance from start to end
+    bool aiming;
+    Camera camera;
 
     //Photon View
     public PhotonView pv;
@@ -51,11 +63,16 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
     Button waitTurn;
     [SerializeField]
     Button endTurn;
+    private GameObject projectile;
 
     void Start()
     {
+        //TEST
+        camera = Camera.main;
+
         playerTurnOrder = new Queue<string>();
         rigidbody = GetComponent<Rigidbody2D>();
+        trajectory = GameObject.FindObjectOfType<Trajectory>();
         
         if (photonView.IsMine)
         {
@@ -143,15 +160,57 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
         
         if (isTurn)
         {
-            transform.position += move * speed * Time.deltaTime;
+            if (!aiming)
+            {
+                transform.position += move * speed * Time.deltaTime;
+            }
 
-            if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+            //Holding the aim button
+            if (Input.GetMouseButtonDown(1))
+            {
+                //Before start aiming, set start point of aim
+                //if(aiming == false){}
+                startPoint = camera.ScreenToWorldPoint(Input.mousePosition);
+                aiming = true;
+                trajectory.display();
+                shuricanInstance = PhotonNetwork.Instantiate(Shurican.name, Throwpoint.position, Throwpoint.rotation).GetComponent<Shurican>();//Throw shurican
+            }
+
+            if (aiming)
+            {
+                endPoint = camera.ScreenToWorldPoint(Input.mousePosition);
+                distance = Vector2.Distance(startPoint, endPoint);
+                direction = (startPoint - endPoint).normalized;
+                force = direction * distance * pushForce;
+                //trajectory.updateDots(shuricanInstance.getPosition(), force);
+                //Debug draw line
+                Debug.DrawLine(startPoint, endPoint);
+            }
+
+            //Throw
+            if (Input.GetMouseButtonDown(0) && aiming)
+            {
+                trajectory.hide();
+                aiming = false;
+                shuricanInstance.projectileForce(force);
+                shuricanInstance.isKinematic();
+                shuricanInstance.throwProjectile();
+            }
+
+            //Stop aiming
+            if (Input.GetMouseButtonUp(1) && aiming)
+            {
+                aiming = false;
+                PhotonNetwork.Instantiate(Shurican.name, Throwpoint.position, Throwpoint.rotation);
+            }
+
+            if ((Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A)) && !aiming)
             {
                 spriteRenderer.flipX = true;
                 pv.RPC("OnDirectionChange_LEFT", RpcTarget.Others);
             }
 
-            if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+            if ((Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D)) && !aiming)
             {
                 spriteRenderer.flipX = false;
                 pv.RPC("OnDirectionChange_RIGHT", RpcTarget.Others);
@@ -159,22 +218,11 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
 
             isGrounded = Physics2D.OverlapCircle(groundCheckPoint.position, groundCheckRadius, whatIsGround);
 
-            if (isGrounded && (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)))
+            if (isGrounded && (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && !aiming)
             {
                 rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             }
 
-            if (Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.Mouse1))
-            {
-                if (spriteRenderer.flipX == true)
-                {
-                    PhotonNetwork.Instantiate(Shurican.name, Throwpoint.position, Throwpoint.rotation);//Throw shurican
-                }
-                else
-                {
-                    PhotonNetwork.Instantiate(Shurican.name, Throwpoint.position, Throwpoint.rotation);//Throw shurican
-                }
-            }
         }
         if (Input.GetKeyDown(KeyCode.Escape))
         {

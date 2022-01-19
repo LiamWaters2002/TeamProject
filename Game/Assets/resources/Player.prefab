@@ -266,7 +266,9 @@ MonoBehaviour:
   sceneCamera: {fileID: 0}
   playerCamera: {fileID: 8274074997949748822}
   Shurican: {fileID: 3868894478559247087, guid: eee652bedfad73147b974170954db6ff, type: 3}
+  shuricanInstance: {fileID: 0}
   Throwpoint: {fileID: 3462196379734562957}
+  trajectory: {fileID: 0}
   pv: {fileID: 3462196379808881816}
   spriteRenderer: {fileID: 3462196379808881893}
   sprites:
