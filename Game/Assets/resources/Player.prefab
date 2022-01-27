@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3462196379734562958}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.28, y: 0.31, z: 0}
+  m_LocalPosition: {x: -0.1, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3462196379808881892}
@@ -255,7 +255,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  jumpForce: 17
+  jumpForce: 20
   groundCheckPoint: {fileID: 3462196381116331654}
   groundCheckRadius: 0.2
   whatIsGround:
@@ -265,7 +265,7 @@ MonoBehaviour:
   lobbyScene: 1
   sceneCamera: {fileID: 0}
   playerCamera: {fileID: 8274074997949748822}
-  Shurican: {fileID: 3868894478559247087, guid: eee652bedfad73147b974170954db6ff, type: 3}
+  Shurican: {fileID: 3868894478559247087, guid: 0a698867477538f42bbc52926932dc19, type: 3}
   shuricanInstance: {fileID: 0}
   Throwpoint: {fileID: 3462196379734562957}
   trajectory: {fileID: 0}
@@ -294,8 +294,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SynchronizeVelocity: 1
   m_SynchronizeAngularVelocity: 0
-  m_TeleportEnabled: 0
-  m_TeleportIfDistanceGreaterThan: 3
+  m_TeleportEnabled: 1
+  m_TeleportIfDistanceGreaterThan: 1
 --- !u!1 &3462196380468893768
 GameObject:
   m_ObjectHideFlags: 0

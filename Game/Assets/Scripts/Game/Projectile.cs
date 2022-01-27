@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shurican : MonoBehaviour
+public class Projectile : MonoBehaviour
 {
 
     public float ballSpeed;
@@ -14,6 +14,7 @@ public class Shurican : MonoBehaviour
 
     public GameObject snowBallEffect;
     private bool projectileThrown;
+    private GameObject playerObject;
 
     // Start is called before the first frame update
     void Start()
@@ -26,7 +27,8 @@ public class Shurican : MonoBehaviour
     {
         if (projectileThrown)
         {
-            rigidBody.AddForce(transform.right * launchForce);
+            transform.Rotate(0f, 0f, 10f * Time.deltaTime, Space.Self);
+            rigidBody.AddForce(transform.forward * launchForce);
         }
         
     }
@@ -68,9 +70,31 @@ public class Shurican : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Instantiate(snowBallEffect, transform.position, transform.rotation);
+        if (playerObject == null)//First collision will be the player holding the projectile
+        {
+            playerObject = other.gameObject;
+            return;
+        }
 
+        //Ignore these collisions
+        if (other.gameObject.tag == "OneWayPlatform" || playerObject == other.gameObject)
+        {
+            return;
+        }
+        GameObject blood = Instantiate(snowBallEffect, transform.position, transform.rotation);
+        
+        Camera camera = new Camera();
         Destroy(gameObject);
+        waitForSeconds(blood);
+        waitForSeconds(camera.gameObject);
+
+    }
+
+    IEnumerator waitForSeconds(GameObject gameobject)
+    {
+        
+        yield return new WaitForSeconds(2.5f);
+        Destroy(gameobject);
     }
 
 }

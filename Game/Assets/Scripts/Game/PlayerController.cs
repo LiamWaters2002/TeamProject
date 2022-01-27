@@ -6,7 +6,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.SceneManagement;
 
-public class PlayerMovement : MonoBehaviourPun, IPunObservable
+public class PlayerController : MonoBehaviourPun, IPunObservable
 {
     //Player Movement
     public float speed;
@@ -18,6 +18,8 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
     public float groundCheckRadius;
     public LayerMask whatIsGround;
     public bool isGrounded;
+    private GameObject currentOneWayPlatform;
+    private BoxCollider2D playerCollider;
 
     //Scene
     public int lobbyScene = 1;
@@ -31,7 +33,7 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
 
     //Projectiles
     public GameObject Shurican;
-    public Shurican shuricanInstance;
+    public Projectile shuricanInstance;
     public Transform Throwpoint;
     float pushForce = 4f;
 
@@ -55,6 +57,7 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
     public ArrayList takenSprites = new ArrayList();
 
     //Turn-based Mechanics
+    Timer timer;
     public Queue<string> playerTurnOrder;
     public Text playerNameText;
     [SerializeField]
@@ -63,17 +66,16 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
     Button waitTurn;
     [SerializeField]
     Button endTurn;
-    private GameObject projectile;
 
     void Start()
     {
-        //TEST
         camera = Camera.main;
 
         playerTurnOrder = new Queue<string>();
         rigidbody = GetComponent<Rigidbody2D>();
+        playerCollider = GetComponent<BoxCollider2D>();
         trajectory = GameObject.FindObjectOfType<Trajectory>();
-        
+
         if (photonView.IsMine)
         {
             //Display player's username
@@ -109,19 +111,21 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
             //{
             //    Debug.Log("loop");
             //    playerTurnOrder.Enqueue(player.NickName);
-                
+
             //}
             //string whosTurn = playerTurnOrder.Dequeue();
             pv.RPC("RPCswitchTurn", RpcTarget.Others);     //change to RPCendPlayerTurn
+            //This line above switches it to others...
         }
-        
+
     }
 
     void Update()
     {
+        //if(timer.nextTimeMode)
         if (photonView.IsMine)
         {
-            
+
             ProcessInputs();
         }
         else
@@ -141,11 +145,11 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
                 waitTurn.gameObject.SetActive(true);
             }
         }
-        catch(System.NullReferenceException e)
+        catch (System.NullReferenceException e)
         {
             //Object empty
         }
-        
+
     }
 
     private void smoothMovement()
@@ -157,7 +161,7 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
     {
 
         var move = new Vector3(Input.GetAxis("Horizontal"), 0);
-        
+
         if (isTurn)
         {
             if (!aiming)
@@ -173,7 +177,7 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
                 startPoint = camera.ScreenToWorldPoint(Input.mousePosition);
                 aiming = true;
                 trajectory.display();
-                shuricanInstance = PhotonNetwork.Instantiate(Shurican.name, Throwpoint.position, Throwpoint.rotation).GetComponent<Shurican>();//Throw shurican
+                shuricanInstance = PhotonNetwork.Instantiate(Shurican.name, Throwpoint.position, Throwpoint.rotation).GetComponent<Projectile>();//Throw shurican
             }
 
             if (aiming)
@@ -185,6 +189,17 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
                 //trajectory.updateDots(shuricanInstance.getPosition(), force);
                 //Debug draw line
                 Debug.DrawLine(startPoint, endPoint);
+
+                if (startPoint.x < endPoint.x)
+                {
+                    spriteRenderer.flipX = true;
+                    pv.RPC("OnDirectionChange_LEFT", RpcTarget.Others);
+                }
+                else
+                {
+                    spriteRenderer.flipX = false;
+                    pv.RPC("OnDirectionChange_RIGHT", RpcTarget.Others);
+                }
             }
 
             //Throw
@@ -223,13 +238,21 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
                 rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             }
 
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                if (currentOneWayPlatform != null)
+                {
+                    StartCoroutine(ignoreCollision());
+                }
+            }
+
         }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             PhotonNetwork.LeaveRoom();
             SceneManager.LoadScene(lobbyScene);
         }
-            
+
         //Change colour of player if not all sprites are taken.
         if (Input.GetKeyDown(KeyCode.C))
         {
@@ -295,11 +318,11 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
     //    }
     //}
 
-    
-        [PunRPC]
+
+    [PunRPC]
     public void RPCswitchTurn()
     {
-         isTurn = true;
+        isTurn = true;
     }
 
     [PunRPC]
@@ -333,5 +356,34 @@ public class PlayerMovement : MonoBehaviourPun, IPunObservable
             otherMove = (Vector3)stream.ReceiveNext();
         }
 
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("OneWayPlatform"))
+        {
+            currentOneWayPlatform = collision.gameObject;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        currentOneWayPlatform = null;
+    }
+
+    private IEnumerator ignoreCollision()
+    {
+        BoxCollider2D platformCollider = currentOneWayPlatform.GetComponent<BoxCollider2D>();
+        if (platformCollider == null)
+        {
+            Debug.Log("platform null");
+        }
+        if (playerCollider == null)
+        {
+            Debug.Log("player null");
+        }
+        Physics2D.IgnoreCollision(playerCollider, platformCollider);
+        yield return new WaitForSeconds(0.50f);
+        Physics2D.IgnoreCollision(playerCollider, platformCollider, false);
     }
 }

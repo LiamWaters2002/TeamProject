@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3952309897611792483}
   - component: {fileID: 5093156436099412488}
   - component: {fileID: 4823547767537337686}
+  - component: {fileID: 1557178204901926031}
   m_Layer: 0
   m_Name: Blood
   m_TagString: Untagged
@@ -4862,3 +4863,15 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &1557178204901926031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 717693842448853070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e885495fcc385e45b91c35459ad6692, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
