@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-
+    [SerializeField]
+    Camera camera;
     public float ballSpeed;
 
     private Rigidbody2D rigidBody;
@@ -27,7 +28,8 @@ public class Projectile : MonoBehaviour
     {
         if (projectileThrown)
         {
-            transform.Rotate(0f, 0f, 10f * Time.deltaTime, Space.Self);
+            camera.transform.Rotate(0f, 0f, -100f * Time.deltaTime, Space.Self);//Counter rotation of projectile
+            transform.Rotate(0f, 0f, 100f * Time.deltaTime, Space.Self);//Rotate projectile
             rigidBody.AddForce(transform.forward * launchForce);
         }
         

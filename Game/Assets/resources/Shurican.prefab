@@ -242,5 +242,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 790b612d41463ca43ac03e2a4db38fa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camera: {fileID: 5529570770084814070}
   ballSpeed: 0
   snowBallEffect: {fileID: 717693842448853070, guid: bd664d48fd754894db66abec1500bea5, type: 3}
