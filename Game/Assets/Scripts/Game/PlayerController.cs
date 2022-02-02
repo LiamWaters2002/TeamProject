@@ -209,8 +209,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
             {
                 trajectory.hide();
                 aiming = false;
-                Vector3 vector3Force = force;
-                pv.RPC("ThrowProjectile", RpcTarget.All, vector3Force);
+                pv.RPC("ThrowProjectile", RpcTarget.All, force);
             }
 
             //Stop aiming
@@ -355,11 +354,11 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     }
 
     [PunRPC]
-    void ThrowProjectile(Vector3 force)
+    void ThrowProjectile(Vector2 force)
     {
-        Vector2 vector2Force = force;
+        //Vector2 vector2Force = force;
         Projectile projectileInstance = GameObject.FindObjectOfType<Projectile>();
-        projectileInstance.projectileForce(vector2Force);
+        projectileInstance.projectileForce(force);
         projectileInstance.isKinematic();
         projectileInstance.throwProjectile();
     }
