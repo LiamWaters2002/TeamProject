@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,7 @@ public class Projectile : MonoBehaviour
     public float ballSpeed;
 
     private Rigidbody2D rigidBody;
+    private PhotonView photonView;
     private CircleCollider2D circleCollider;
     private int launchForce = 20;
     private Vector3 projectoryPosition { get { return transform.position; } }
@@ -21,6 +23,7 @@ public class Projectile : MonoBehaviour
     void Start()
     {
         rigidBody = GetComponent<Rigidbody2D>();
+        photonView = GetComponent<PhotonView>();
     }
 
     // Update is called once per frame
@@ -34,7 +37,10 @@ public class Projectile : MonoBehaviour
         }
         
     }
-
+    public PhotonView getPhotonView()
+    {
+        return photonView;
+    }
     public Vector3 getPosition()
     {
         return projectoryPosition;

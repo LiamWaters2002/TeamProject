@@ -32,8 +32,9 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     private Vector3 otherMove;
 
     //Projectiles
-    public GameObject Shurican;
-    public Projectile shuricanInstance;
+    private int selectedProjectile = 0;
+    public GameObject[] projectile;
+    public Projectile projectileInstance;
     public Transform Throwpoint;
     float pushForce = 4f;
 
@@ -177,7 +178,8 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
                 startPoint = camera.ScreenToWorldPoint(Input.mousePosition);
                 aiming = true;
                 trajectory.display();
-                shuricanInstance = PhotonNetwork.Instantiate(Shurican.name, Throwpoint.position, Throwpoint.rotation).GetComponent<Projectile>();//Throw shurican
+                projectileInstance = PhotonNetwork.Instantiate(projectile[selectedProjectile].name, Throwpoint.position, Throwpoint.rotation).GetComponent<Projectile>();
+                
             }
 
             if (aiming)
@@ -207,16 +209,15 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
             {
                 trajectory.hide();
                 aiming = false;
-                shuricanInstance.projectileForce(force);
-                shuricanInstance.isKinematic();
-                shuricanInstance.throwProjectile();
+                Vector3 vector3Force = force;
+                pv.RPC("ThrowProjectile", RpcTarget.All, vector3Force);
             }
 
             //Stop aiming
             if (Input.GetMouseButtonUp(1) && aiming)
             {
                 aiming = false;
-                PhotonNetwork.Instantiate(Shurican.name, Throwpoint.position, Throwpoint.rotation);
+                PhotonNetwork.Instantiate(projectile[0].name, Throwpoint.position, Throwpoint.rotation);
             }
 
             if ((Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A)) && !aiming)
@@ -276,6 +277,14 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
                 playerCamera.SetActive(true);
             }
 
+        }
+
+        for (int i = 1; i < projectile.Length + 1; i++)
+        {
+            if (Input.GetKeyDown(""+i))
+            {
+                selectedProjectile = i;
+            }
         }
     }
 
@@ -343,6 +352,16 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     void OnDirectionChange_RIGHT()
     {
         spriteRenderer.flipX = false;
+    }
+
+    [PunRPC]
+    void ThrowProjectile(Vector3 force)
+    {
+        Vector2 vector2Force = force;
+        Projectile projectileInstance = GameObject.FindObjectOfType<Projectile>();
+        projectileInstance.projectileForce(vector2Force);
+        projectileInstance.isKinematic();
+        projectileInstance.throwProjectile();
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
