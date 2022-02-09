@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     public float groundCheckRadius;
     public LayerMask whatIsGround;
     public bool isGrounded;
+    private GameObject[] oneWayPlatforms;
     private GameObject currentOneWayPlatform;
     private BoxCollider2D playerCollider;
 
@@ -76,6 +77,8 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         rigidbody = GetComponent<Rigidbody2D>();
         playerCollider = GetComponent<BoxCollider2D>();
         trajectory = GameObject.FindObjectOfType<Trajectory>();
+
+        oneWayPlatforms = GameObject.FindGameObjectsWithTag("OneWayPlatform");
 
         if (photonView.IsMine)
         {
@@ -391,17 +394,37 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 
     private IEnumerator ignoreCollision()
     {
-        BoxCollider2D platformCollider = currentOneWayPlatform.GetComponent<BoxCollider2D>();
-        if (platformCollider == null)
+        //BoxCollider2D platformCollider = currentOneWayPlatform.GetComponent<BoxCollider2D>();
+        //if (platformCollider == null)
+        //{
+        //    Debug.Log("platform null");
+        //}
+        //if (playerCollider == null)
+        //{
+        //    Debug.Log("player null");
+        //}
+        int photonViewID = pv.ViewID;
+        pv.RPC("RPCdisableCollision", RpcTarget.All, photonViewID);
+        yield return new WaitForSeconds(0.40f);
+        pv.RPC("RPCenableCollision", RpcTarget.All, photonViewID);
+    }
+
+    [PunRPC]
+    void RPCdisableCollision(int photonViewID)
+    {
+        foreach (GameObject platform in oneWayPlatforms)
         {
-            Debug.Log("platform null");
+            Physics2D.IgnoreCollision(playerCollider, platform.GetComponent<Collider2D>());
         }
-        if (playerCollider == null)
+        
+    }
+
+    [PunRPC]
+    void RPCenableCollision(int photonViewID)
+    {
+        foreach (GameObject platform in oneWayPlatforms)
         {
-            Debug.Log("player null");
+            Physics2D.IgnoreCollision(playerCollider, platform.GetComponent<Collider2D>(), false);
         }
-        Physics2D.IgnoreCollision(playerCollider, platformCollider);
-        yield return new WaitForSeconds(0.50f);
-        Physics2D.IgnoreCollision(playerCollider, platformCollider, false);
     }
 }

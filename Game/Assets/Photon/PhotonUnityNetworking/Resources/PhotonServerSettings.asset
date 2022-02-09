@@ -47,6 +47,8 @@ MonoBehaviour:
   - RPCendPlayerTurn
   - RPCswitchTurn
   - ThrowProjectile
+  - RPCdisableCollision
+  - RPCenableCollision
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
