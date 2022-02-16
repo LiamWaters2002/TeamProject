@@ -46,10 +46,11 @@ GameObject:
   - component: {fileID: 3462196379808881817}
   - component: {fileID: 3462196379808881818}
   - component: {fileID: 3462196379808881819}
+  - component: {fileID: 572672096368818657}
   - component: {fileID: 3462196379808881820}
   m_Layer: 6
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -284,6 +285,19 @@ MonoBehaviour:
   isTurn: 0
   waitTurn: {fileID: 0}
   endTurn: {fileID: 0}
+--- !u!114 &572672096368818657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3462196379808881821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e95ef7ef34ba45c4691729660292cf5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBar: {fileID: 2340745419331167087}
 --- !u!114 &3462196379808881820
 MonoBehaviour:
   m_ObjectHideFlags: 0

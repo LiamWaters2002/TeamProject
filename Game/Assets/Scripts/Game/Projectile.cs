@@ -13,11 +13,12 @@ public class Projectile : MonoBehaviour
     private PhotonView photonView;
     private CircleCollider2D circleCollider;
     private int launchForce = 20;
+    private float damage = 0.5f;
     private Vector3 projectoryPosition { get { return transform.position; } }
 
     public GameObject snowBallEffect;
     private bool projectileThrown;
-    private GameObject playerObject;
+    private GameObject thrower;
 
     // Start is called before the first frame update
     void Start()
@@ -78,17 +79,24 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (playerObject == null)//First collision will be the player holding the projectile
+        if (thrower == null && other.gameObject.tag == "Player")//First collision will be the player holding the projectile
         {
-            playerObject = other.gameObject;
+            thrower = other.gameObject;
             return;
+        }
+        else if(thrower != other.gameObject && other.gameObject.tag == "Player")
+        {
+            HealthBar health = other.gameObject.GetComponent<HealthBar>();
+            health.takeDamage(0.25f);
+            Destroy(gameObject);
         }
 
         //Ignore these collisions
-        if (other.gameObject.tag == "OneWayPlatform" || playerObject == other.gameObject)
+        if (other.gameObject.tag == "OneWayPlatform" || thrower == other.gameObject)
         {
             return;
         }
+
         GameObject blood = Instantiate(snowBallEffect, transform.position, transform.rotation);
         
         Camera camera = new Camera();

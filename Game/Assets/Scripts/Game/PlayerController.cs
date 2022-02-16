@@ -22,6 +22,9 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     private GameObject currentOneWayPlatform;
     private BoxCollider2D playerCollider;
 
+    //Fall Damage
+    private float fallDamageVelY;
+
     //Scene
     public int lobbyScene = 1;
     [SerializeField]
@@ -163,7 +166,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 
     private void ProcessInputs()
     {
-
+        isGrounded = Physics2D.OverlapCircle(groundCheckPoint.position, groundCheckRadius, whatIsGround);
         var move = new Vector3(Input.GetAxis("Horizontal"), 0);
 
         if (isTurn)
@@ -234,14 +237,12 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
                 pv.RPC("OnDirectionChange_RIGHT", RpcTarget.Others);
             }
 
-            isGrounded = Physics2D.OverlapCircle(groundCheckPoint.position, groundCheckRadius, whatIsGround);
-
             if (isGrounded && (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && !aiming)
             {
                 rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             }
 
-            if (Input.GetKeyDown(KeyCode.S))
+            if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
             {
                 if (currentOneWayPlatform != null)
                 {
@@ -281,11 +282,56 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 
         }
 
+
+        if (fallDamageVelY > rigidbody.velocity.y)
+        {
+            fallDamageVelY = rigidbody.velocity.y;
+        }
+
         for (int i = 1; i < projectile.Length + 1; i++)
         {
             if (Input.GetKeyDown(""+i))
             {
                 selectedProjectile = i;
+            }
+        }
+    }
+
+    void FixedUpdate()
+    {
+        if (photonView.IsMine)
+        {
+            //Fall Damage
+            if (isGrounded && fallDamageVelY != 0)
+            {
+                HealthBar health = pv.gameObject.GetComponent<HealthBar>();
+                if (fallDamageVelY <= -70)
+                {
+                    health.takeDamage(1.0f);
+                    Debug.Log("10 damage");
+                    fallDamageVelY = 0;
+                }
+                else if (fallDamageVelY <= -60)
+                {
+                    health.takeDamage(0.8f);
+                    Debug.Log("20 damage");
+                }
+                else if (fallDamageVelY <= -50)
+                {
+                    health.takeDamage(0.4f);
+                    Debug.Log("50 damage");
+                }
+                else if (fallDamageVelY <= -40)
+                {
+                    health.takeDamage(0.2f);
+                    Debug.Log("80 damage");
+                }
+                else if (fallDamageVelY <= -30)
+                {
+                    health.takeDamage(0.1f);
+                    Debug.Log("100 damage");
+                }
+                fallDamageVelY = 0;
             }
         }
     }
@@ -381,6 +427,11 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (collision.gameObject.tag == "Player")
+        {
+            Physics2D.IgnoreCollision(playerCollider, collision.gameObject.GetComponent<BoxCollider2D>());
+        }
+
         if (collision.gameObject.CompareTag("OneWayPlatform"))
         {
             currentOneWayPlatform = collision.gameObject;
