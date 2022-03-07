@@ -23,7 +23,11 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     private BoxCollider2D playerCollider;
 
     //Fall Damage
-    private float fallDamageVelY;
+    private int playerPhotonID;
+    private float playerFallVelY;
+
+    //Popup
+    //private Popup popup;
 
     //Scene
     public int lobbyScene = 1;
@@ -132,12 +136,40 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         //if(timer.nextTimeMode)
         if (photonView.IsMine)
         {
+            HealthBar health = PhotonView.Find(pv.ViewID).gameObject.GetComponent<HealthBar>();
+            if (health.healthBar.fillAmount == 0)
+            {
+                sceneCamera.SetActive(true);
+                playerCamera.SetActive(false);
 
+                pv.RPC("RPCplayerDeath", RpcTarget.All, pv.ViewID);
+                //popup.deathPopup();
+            }
             ProcessInputs();
         }
         else
         {
             smoothMovement();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            GameObject[] namesArray = GameObject.FindGameObjectsWithTag("PlayerName");
+            foreach (GameObject name in namesArray)
+            {
+                if (sceneCamera.activeSelf == true)
+                {
+                    name.GetComponent<Text>().fontSize = 3;
+                }
+                else
+                {
+                    name.GetComponent<Text>().fontSize = 1;
+                }
+                    
+            }
+            
+            
+
         }
 
         try
@@ -251,11 +283,6 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
             }
 
         }
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            PhotonNetwork.LeaveRoom();
-            SceneManager.LoadScene(lobbyScene);
-        }
 
         //Change colour of player if not all sprites are taken.
         if (Input.GetKeyDown(KeyCode.C))
@@ -271,6 +298,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         {
             if (sceneCamera.activeSelf == false)
             {
+                //Increase name text.
                 sceneCamera.SetActive(true);
                 playerCamera.SetActive(false);
             }
@@ -283,9 +311,9 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         }
 
 
-        if (fallDamageVelY > rigidbody.velocity.y)
+        if (playerFallVelY > rigidbody.velocity.y)
         {
-            fallDamageVelY = rigidbody.velocity.y;
+            playerFallVelY = rigidbody.velocity.y;
         }
 
         for (int i = 1; i < projectile.Length + 1; i++)
@@ -299,41 +327,39 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 
     void FixedUpdate()
     {
-        if (photonView.IsMine)
+        
+        if (photonView.IsMine && isGrounded && playerFallVelY <= -30) //Fall Damage for your player
         {
-            //Fall Damage
-            if (isGrounded && fallDamageVelY != 0)
-            {
-                HealthBar health = pv.gameObject.GetComponent<HealthBar>();
-                if (fallDamageVelY <= -70)
-                {
-                    health.takeDamage(1.0f);
-                    Debug.Log("10 damage");
-                    fallDamageVelY = 0;
-                }
-                else if (fallDamageVelY <= -60)
-                {
-                    health.takeDamage(0.8f);
-                    Debug.Log("20 damage");
-                }
-                else if (fallDamageVelY <= -50)
-                {
-                    health.takeDamage(0.4f);
-                    Debug.Log("50 damage");
-                }
-                else if (fallDamageVelY <= -40)
-                {
-                    health.takeDamage(0.2f);
-                    Debug.Log("80 damage");
-                }
-                else if (fallDamageVelY <= -30)
-                {
-                    health.takeDamage(0.1f);
-                    Debug.Log("100 damage");
-                }
-                fallDamageVelY = 0;
-            }
+            pv.RPC("RPCdamageInfo", RpcTarget.AllBuffered, pv.ViewID, playerFallVelY);
         }
+        if(playerPhotonID != 0 && playerFallVelY != 0) //Fall Damage for another player
+        {
+            HealthBar health = PhotonView.Find(playerPhotonID).gameObject.GetComponent<HealthBar>();
+            if (playerFallVelY <= -70)
+            {
+                health.takeDamage(1.0f);
+            }
+            else if (playerFallVelY <= -60)
+            {
+                health.takeDamage(0.8f);
+            }
+            else if (playerFallVelY <= -50)
+            {
+                health.takeDamage(0.4f);
+            }
+            else if (playerFallVelY <= -40)
+            {
+                health.takeDamage(0.2f);
+            }
+            else if (playerFallVelY <= -30)
+            {
+                health.takeDamage(0.1f);
+            }
+            playerFallVelY = 0;
+            playerPhotonID = 0;
+        }
+        
+        
     }
 
     public int randomPlayerColour()
@@ -380,6 +406,13 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     public void RPCswitchTurn()
     {
         isTurn = true;
+    }
+
+    [PunRPC]
+    public void RPCdamageInfo(int photonViewID, float fallDamageVelY)
+    {
+        playerPhotonID = photonViewID;
+        playerFallVelY = fallDamageVelY;
     }
 
     [PunRPC]
@@ -477,5 +510,12 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         {
             Physics2D.IgnoreCollision(playerCollider, platform.GetComponent<Collider2D>(), false);
         }
+    }
+
+    [PunRPC]
+
+    void RPCplayerDeath(int photonID)
+    {
+        Destroy(PhotonView.Find(photonID).gameObject);
     }
 }

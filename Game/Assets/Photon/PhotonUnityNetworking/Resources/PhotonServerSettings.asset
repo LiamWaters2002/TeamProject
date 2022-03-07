@@ -50,6 +50,9 @@ MonoBehaviour:
   - RPCdisableCollision
   - RPCenableCollision
   - takeDamage
+  - RPCtakeDamage
+  - RPCdamageInfo
+  - RPCplayerDeath
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

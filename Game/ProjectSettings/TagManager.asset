@@ -3,7 +3,15 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - PlayerName
+  - Projectile
+  - OneWayPlatform
+  - Popup
+  - btnRematch
+  - btnExit
+  - btnSpectate
+  - popupMessage
   layers:
   - Default
   - TransparentFX
