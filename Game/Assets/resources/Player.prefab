@@ -264,6 +264,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   isGrounded: 0
+  popup: {fileID: 0}
   lobbyScene: 1
   sceneCamera: {fileID: 0}
   playerCamera: {fileID: 8274074997949748822}

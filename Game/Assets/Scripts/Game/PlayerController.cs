@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     private float playerFallVelY;
 
     //Popup
-    //private Popup popup;
+    public Popup popup;
 
     //Scene
     public int lobbyScene = 1;
@@ -142,8 +142,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
                 sceneCamera.SetActive(true);
                 playerCamera.SetActive(false);
 
-                pv.RPC("RPCplayerDeath", RpcTarget.All, pv.ViewID);
-                //popup.deathPopup();
+                StartCoroutine(zeroHealth()); //Player Death
             }
             ProcessInputs();
         }
@@ -476,7 +475,13 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         currentOneWayPlatform = null;
     }
 
-    private IEnumerator ignoreCollision()
+    private IEnumerator zeroHealth()
+    {
+        yield return new WaitForSeconds(3f);
+        pv.RPC("RPCplayerDeath", RpcTarget.All, pv.ViewID);
+    }
+
+        private IEnumerator ignoreCollision()
     {
         //BoxCollider2D platformCollider = currentOneWayPlatform.GetComponent<BoxCollider2D>();
         //if (platformCollider == null)
@@ -516,6 +521,6 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 
     void RPCplayerDeath(int photonID)
     {
-        Destroy(PhotonView.Find(photonID).gameObject);
+        PhotonView.Find(photonID).gameObject.SetActive(false);
     }
 }

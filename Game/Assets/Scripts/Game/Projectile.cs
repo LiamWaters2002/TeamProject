@@ -13,6 +13,7 @@ public class Projectile : MonoBehaviour
     private PhotonView photonView;
     private CircleCollider2D circleCollider;
     private int launchForce = 20;
+    public Vector2 force;
     private float damage = 0.5f;
     private Vector3 projectoryPosition { get { return transform.position; } }
 
@@ -62,6 +63,7 @@ public class Projectile : MonoBehaviour
 
     public void projectileForce(Vector2 force)
     {
+        this.force = force;
         rigidBody.AddForce(force, ForceMode2D.Impulse);
     }
 
@@ -88,6 +90,8 @@ public class Projectile : MonoBehaviour
         {
             HealthBar health = other.gameObject.GetComponent<HealthBar>();
             health.takeDamage(0.25f);
+            Rigidbody2D rigidBody = other.gameObject.GetComponent<Rigidbody2D>();
+            rigidBody.velocity = force;
             Destroy(gameObject);
         }
 

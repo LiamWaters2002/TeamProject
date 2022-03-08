@@ -12,6 +12,7 @@ TagManager:
   - btnExit
   - btnSpectate
   - popupMessage
+  - popupRematchText
   layers:
   - Default
   - TransparentFX

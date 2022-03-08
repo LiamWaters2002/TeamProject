@@ -244,4 +244,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camera: {fileID: 5529570770084814070}
   ballSpeed: 0
+  force: {x: 0, y: 0}
   snowBallEffect: {fileID: 717693842448853070, guid: bd664d48fd754894db66abec1500bea5, type: 3}
