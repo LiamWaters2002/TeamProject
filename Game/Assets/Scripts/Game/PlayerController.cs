@@ -94,13 +94,12 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 
             //Random Sprites
             int index = randomPlayerColour();
-            pv.RPC("changePlayerColour", RpcTarget.Others, index);
+            pv.RPC("changePlayerColour", RpcTarget.AllBuffered, index);
 
             //Camera - lines below are to be used later on...
             sceneCamera = GameObject.Find("SceneCamera");
             sceneCamera.SetActive(false);
             playerCamera.SetActive(true);
-            //playerCamera.SetActive(false);
         }
         else
         {
@@ -289,7 +288,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 
             int index = randomPlayerColour();
 
-            pv.RPC("changePlayerColour", RpcTarget.Others, index);
+            pv.RPC("changePlayerColour", RpcTarget.AllBuffered, index);
 
         }
 
@@ -297,7 +296,6 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         {
             if (sceneCamera.activeSelf == false)
             {
-                //Increase name text.
                 sceneCamera.SetActive(true);
                 playerCamera.SetActive(false);
             }
@@ -364,17 +362,13 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     public int randomPlayerColour()
     {
         int index = Random.Range(0, 4);
-        if (takenSprites.Contains(sprites[index]))
+        while (takenSprites.Contains(sprites[index]))
         {
-            while (takenSprites.Contains(sprites[index]))
-            {
-                index = Random.Range(0, 4);
-            }
-
+            index = Random.Range(0, 4);
         }
-        takenSprites.Remove(spriteRenderer.sprite);
-        takenSprites.Add(sprites[index]);
-        spriteRenderer.sprite = sprites[index];
+       // takenSprites.Remove(spriteRenderer.sprite);
+      //  takenSprites.Add(sprites[index]);
+       // spriteRenderer.sprite = sprites[index];
         return index;
     }
 
@@ -483,15 +477,6 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 
         private IEnumerator ignoreCollision()
     {
-        //BoxCollider2D platformCollider = currentOneWayPlatform.GetComponent<BoxCollider2D>();
-        //if (platformCollider == null)
-        //{
-        //    Debug.Log("platform null");
-        //}
-        //if (playerCollider == null)
-        //{
-        //    Debug.Log("player null");
-        //}
         int photonViewID = pv.ViewID;
         pv.RPC("RPCdisableCollision", RpcTarget.All, photonViewID);
         yield return new WaitForSeconds(0.40f);
