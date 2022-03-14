@@ -54,7 +54,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     private void Awake()
     {
-        roomName.text = "Room: " + PhotonNetwork.CurrentRoom.Name;
+        roomName.text = "Room: " + PhotonNetwork.CurrentRoom.Name;gkrjgrhugrfdsfdfs
 
         view = GetComponent<PhotonView>();
         fullGameTimer = maxFullGameWaitTime;
