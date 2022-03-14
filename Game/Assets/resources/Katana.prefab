@@ -159,7 +159,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 57bb65786c2ffd0448dcc923c17175e0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4739a8b2de314e94eb64cfc5824fe574, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -244,4 +244,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camera: {fileID: 5529570770084814070}
   ballSpeed: 0
+  force: {x: 0, y: 0}
   snowBallEffect: {fileID: 717693842448853070, guid: bd664d48fd754894db66abec1500bea5, type: 3}
