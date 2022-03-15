@@ -16,7 +16,11 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
     //Player Info
     Player[] players;
 
-    //In-game popups
+    //Popups
+    [SerializeField]
+    public GameObject leaderboard;
+    [SerializeField]
+    public GameObject credits;
     [SerializeField]
     public GameObject popupBox;
     [SerializeField]
@@ -179,6 +183,31 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     }
 
+    public void toggleLeaderboard()
+    {
+        if (leaderboard.activeSelf)
+        {
+            leaderboard.active = false;
+        }    
+        else
+        {
+            leaderboard.active = true;
+        }
+    }
+
+    public void toggleCredits()
+    {
+        if (credits.activeSelf)
+        {
+            credits.active = false;
+        } 
+        else
+        {
+            credits.active = true;
+        }
+    }
+
 }
+
 
         
