@@ -4,37 +4,28 @@ using UnityEngine;
 
 public class userInsert : MonoBehaviour
 {
-    string URL = "http://localhost/mydb/userInsert.php";
+    string link = "https://team25project.000webhostapp.com/userInsert.php";
     [SerializeField]
-    public string InputUsername, InputEmail, InputPassword, InputRank, InputCoins, InputKD;
-
-
-    void Start()
-    {
-
-    }
+    public string inputUsername, inputPassword, inputRank, inputKills, inputDeaths;
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            AddUser(InputUsername, InputEmail, InputPassword, InputRank, InputCoins, InputKD);
+            AddUser(inputUsername, inputPassword, inputRank, inputKills, inputDeaths);
         }
     }
 
-
-
-    public void AddUser(string username, string email, string password, string rank, string coins, string kd)
+    public void AddUser(string username, string password, string rank, string kills, string deaths)
     {
         WWWForm form = new WWWForm();
         form.AddField("addUsername", username);
-        form.AddField("addEmail", email);
         form.AddField("addPassword", password);
         form.AddField("addRank", rank);
-        form.AddField("addCoins", coins);
-        form.AddField("addKD", kd);
+        form.AddField("addKills", kills);
+        form.AddField("addDeaths", deaths);
 
-        WWW www = new WWW(URL, form);
+        WWW www = new WWW(link, form);
     }
 
 }

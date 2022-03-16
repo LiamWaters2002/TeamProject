@@ -4,34 +4,31 @@ using UnityEngine;
 
 public class userUpdate : MonoBehaviour
 {
-    string URL = "http://localhost/mydb/userUpdate.php";
-    public string InputUsername, InputEmail, InputPassword, InputRank, InputCoins, InputKD, WhereField, WhereCondition;
-    void Start()
-    {
-
-    }
+    string link = "https://team25project.000webhostapp.com/userUpdate.php";
+    public string inputUsername, inputPassword, inputRank, inputKills, inputDeaths, field, condition;
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            UpdateUser(InputUsername, InputEmail, InputPassword, InputRank, InputCoins, InputKD, WhereField, WhereCondition);
+            UpdateUser(inputUsername, inputPassword, inputRank, inputKills, inputDeaths, field, condition);
         }
     }
 
-    public void UpdateUser(string username, string email, string password, string rank, string coins, string KD, string wF, string wC)
+    public void UpdateUser(string username, string password, string rank, string kills, string deaths, string field, string condition)
     {
         WWWForm form = new WWWForm();
         form.AddField ("editUsername", username);
-        form.AddField ("editEmail", email);
         form.AddField ("editPassword", password);
         form.AddField("editRank", rank);
-        form.AddField("editCoins", coins);
-        form.AddField("editKD", KD);
+        form.AddField("editKills", kills);
+        form.AddField("editDeaths", deaths);
 
-        form.AddField ("whereField",wF);
-        form.AddField("whereCondition", wC);
+        //Field and condition
+        form.AddField ("field",field);
+        form.AddField("condition", condition);
 
-        WWW www = new WWW(URL, form);
+        WWW www = new WWW(link, form);
+        print(new WWW(link, form).ToString());
     }
 }

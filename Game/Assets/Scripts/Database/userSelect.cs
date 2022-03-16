@@ -4,32 +4,28 @@ using UnityEngine;
 
 public class userSelect : MonoBehaviour
 {
-    string URL = "http://localhost/mydb/userSelect.php";
+    string link = "https://team25project.000webhostapp.com/userSelect.php";
     [SerializeField]
     public string[] usersData;
 
     IEnumerator Start()
     {
-        WWW users = new WWW (URL);
-        yield return users;
-        string usersDataString = users.text;
-        usersData = usersDataString.Split(';');
-        print (GetValueData(usersData[0], "username:"));//Change to any field
+        WWW users = new WWW (link);
+        yield return users; //wait until users have been returned.
+        string output = users.text;
+        usersData = output.Split(';');
+        print( GetUserField(usersData[0], "rank") );//Change to any field
     }
 
-    string GetValueData(string data, string index)
+    string GetUserField(string userData, string field)
     {
-        string value = data.Substring(data.IndexOf(index)+index.Length);
+        field = field + ":";
+        string value = userData.Substring(userData.IndexOf(field)+field.Length);//Get everything after "field:"
         if (value.Contains("|"))
         {
-            value = value.Remove(value.IndexOf("|"));
+            value = value.Remove(value.IndexOf("|"));//Remove everything after |
         }
         return value;
-
-    }
-
-    void Update()
-    {
 
     }
 }

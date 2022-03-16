@@ -4,28 +4,22 @@ using UnityEngine;
 
 public class userDelete : MonoBehaviour
 {
-    string URL = "http://localhost/mydb/userDelete.php";
-    public string WhereField, WhereCondition;
-
-    void Start()
-    {
-
-    }
+    string link = "https://team25project.000webhostapp.com/userDelete.php";
+    public string field, condition;
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            DelUser(WhereField, WhereCondition);
+            DelUser(field, condition);
         }
     }
 
-    public void DelUser(string wF, string wC)
+    public void DelUser(string field, string condition)
     {
         WWWForm form = new WWWForm();
-        form.AddField("whereField", wF);
-        form.AddField("whereCondition", wC);
-
-        WWW www = new WWW(URL, form);
+        form.AddField("field", field);
+        form.AddField("condition", condition);
+        WWW www = new WWW(link, form);
     }
 }
