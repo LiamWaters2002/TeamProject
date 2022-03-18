@@ -11,6 +11,7 @@ public class Timer : MonoBehaviour
     private static float time;
     private static bool paused;
     private static string nextTimeMode;
+    public bool canMove;
 
     [SerializeField]
     public Text timer;
@@ -44,6 +45,7 @@ public class Timer : MonoBehaviour
     void Start()
     {
         time = getReadyTime;
+        nextTimeMode = "turn";
     }
 
     // Update is called once per frame
@@ -58,6 +60,7 @@ public class Timer : MonoBehaviour
             }
             else
             {
+                canMove = false;
                 resetTimer();
             }
         }
@@ -70,11 +73,13 @@ public class Timer : MonoBehaviour
         {
             time = turnTime;
             nextTimeMode = "getReady";
+            canMove = true;
         }
         else if (nextTimeMode == "getReady")//Time give to prepare player for their turn.
         {
             time = getReadyTime;
             nextTimeMode = "turn";
+            
         }
         timer.text = Mathf.RoundToInt(time).ToString();
     }
