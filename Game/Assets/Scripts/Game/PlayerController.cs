@@ -84,8 +84,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         rigidbody = GetComponent<Rigidbody2D>();
         playerCollider = GetComponent<BoxCollider2D>();
         trajectory = GameObject.FindObjectOfType<Trajectory>();
-        timer = GameObject.Find("TimeManager").GetComponent<Timer>();
-        
+
         oneWayPlatforms = GameObject.FindGameObjectsWithTag("OneWayPlatform");
 
         if (photonView.IsMine)
@@ -200,7 +199,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         isGrounded = Physics2D.OverlapCircle(groundCheckPoint.position, groundCheckRadius, whatIsGround);
         var move = new Vector3(Input.GetAxis("Horizontal"), 0);
 
-        if (isTurn && timer.canMove)
+        if (isTurn)
         {
             if (!aiming)
             {
