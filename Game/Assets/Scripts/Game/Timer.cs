@@ -11,6 +11,7 @@ public class Timer : MonoBehaviour
     private static float time;
     private static bool paused;
     private static string nextTimeMode;
+    private bool endTurn;
     public bool canMove;
 
     [SerializeField]

@@ -207,8 +207,8 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
                 transform.position += move * speed * Time.deltaTime;
             }
 
-            //Holding the aim button
-            if (Input.GetMouseButtonDown(1))
+            //Holding the aim button.
+            if (Input.GetMouseButtonDown(1) && timer.getTime() > 1)
             {
                 //Before start aiming, set start point of aim
                 //if(aiming == false){}
@@ -250,7 +250,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
             }
 
             //Stop aiming
-            if (Input.GetMouseButtonUp(1) && aiming)
+            if (Input.GetMouseButtonUp(1) && aiming || timer.getTime() < 1 &&  aiming)
             {
                 aiming = false;
                 PhotonNetwork.Instantiate(projectile[0].name, Throwpoint.position, Throwpoint.rotation);
