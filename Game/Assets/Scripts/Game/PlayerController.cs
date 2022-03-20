@@ -84,7 +84,8 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         rigidbody = GetComponent<Rigidbody2D>();
         playerCollider = GetComponent<BoxCollider2D>();
         trajectory = GameObject.FindObjectOfType<Trajectory>();
-
+        timer = GameObject.Find("TimeManager").GetComponent<Timer>();
+        
         oneWayPlatforms = GameObject.FindGameObjectsWithTag("OneWayPlatform");
 
         if (photonView.IsMine)
@@ -199,15 +200,15 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         isGrounded = Physics2D.OverlapCircle(groundCheckPoint.position, groundCheckRadius, whatIsGround);
         var move = new Vector3(Input.GetAxis("Horizontal"), 0);
 
-        if (isTurn)
+        if (isTurn && timer.canMove)
         {
             if (!aiming)
             {
                 transform.position += move * speed * Time.deltaTime;
             }
 
-            //Holding the aim button
-            if (Input.GetMouseButtonDown(1))
+            //Holding the aim button.
+            if (Input.GetMouseButtonDown(1) && timer.getTime() > 1)
             {
                 //Before start aiming, set start point of aim
                 //if(aiming == false){}
@@ -249,7 +250,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
             }
 
             //Stop aiming
-            if (Input.GetMouseButtonUp(1) && aiming)
+            if (Input.GetMouseButtonUp(1) && aiming || timer.getTime() < 1 &&  aiming)
             {
                 aiming = false;
                 PhotonNetwork.Instantiate(projectile[0].name, Throwpoint.position, Throwpoint.rotation);

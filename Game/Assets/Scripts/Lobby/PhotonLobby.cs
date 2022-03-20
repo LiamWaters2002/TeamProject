@@ -22,10 +22,6 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
     [SerializeField]
     public GameObject credits;
     [SerializeField]
-    public GameObject creditsPage1;
-    [SerializeField]
-    public GameObject creditsPage2;
-    [SerializeField]
     public GameObject popupBox;
     [SerializeField]
     public Button exitPopupBtn;
@@ -129,19 +125,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     public void exitPopup()
     {
-        if (popupBox.activeSelf)
-        {
-            popupBox.SetActive(false);
-        }
-        if (leaderboard.activeSelf)
-        {
-            leaderboard.SetActive(false);
-        }
-        if (credits.activeSelf)
-        {
-            credits.SetActive(false);
-        }
-        
+        popupBox.SetActive(false);
     }
 
     /// <summary>
