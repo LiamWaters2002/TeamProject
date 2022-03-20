@@ -52,6 +52,9 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     [SerializeField]
     private float maxFullGameWaitTime;
 
+    //Map Selector Popup
+    public GameObject mapSelector;
+
     private void Awake()
     {
         roomName.text = "Room: " + PhotonNetwork.CurrentRoom.Name;
@@ -184,4 +187,15 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
         SceneManager.LoadScene(lobbyScene);
     }
 
+    public void toggleMapSelector()
+    {
+        if (mapSelector.active)
+        {
+            mapSelector.SetActive(false);
+        }
+        else
+        {
+            mapSelector.SetActive(true);
+        }
+    }
 }
