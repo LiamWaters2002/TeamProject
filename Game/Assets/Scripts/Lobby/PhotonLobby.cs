@@ -125,7 +125,19 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     public void exitPopup()
     {
-        popupBox.SetActive(false);
+        if (popupBox.activeSelf)
+        {
+            popupBox.SetActive(false);
+        }
+        if (credits.activeSelf)
+        {
+            credits.SetActive(false);
+        }
+        if (leaderboard.activeSelf)
+        {
+            leaderboard.SetActive(false);
+        }
+
     }
 
     /// <summary>
