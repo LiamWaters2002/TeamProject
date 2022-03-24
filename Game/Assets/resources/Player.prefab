@@ -44,7 +44,6 @@ GameObject:
   - component: {fileID: 3462196379808881895}
   - component: {fileID: 3462196379808881816}
   - component: {fileID: 3462196379808881817}
-  - component: {fileID: 3462196379808881818}
   - component: {fileID: 3462196379808881819}
   - component: {fileID: 4776542826607393847}
   - component: {fileID: 572672096368818657}
@@ -229,21 +228,6 @@ MonoBehaviour:
     InterpolateOption: 0
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 0
---- !u!114 &3462196379808881818
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3462196379808881821}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac9b48a5d1a85c544aa0abec4fbdaac8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scriptsToIgnore:
-  - {fileID: 3462196379808881819}
-  - {fileID: 3462196379808881818}
 --- !u!114 &3462196379808881819
 MonoBehaviour:
   m_ObjectHideFlags: 0
