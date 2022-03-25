@@ -12,16 +12,15 @@ public class userInsert : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            AddUser(inputUsername, inputPassword, inputRank, inputKills, inputDeaths);
+            AddUser(inputUsername, inputPassword, inputKills, inputDeaths);
         }
     }
 
-    public void AddUser(string username, string password, string rank, string kills, string deaths)
+    public void AddUser(string username, string password, string kills, string deaths)
     {
         WWWForm form = new WWWForm();
         form.AddField("addUsername", username);
         form.AddField("addPassword", password);
-        form.AddField("addRank", rank);
         form.AddField("addKills", kills);
         form.AddField("addDeaths", deaths);
 

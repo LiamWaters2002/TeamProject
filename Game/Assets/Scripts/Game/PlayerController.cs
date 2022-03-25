@@ -111,11 +111,11 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         waitTurn = GameObject.Find("WaitTurnButton").GetComponent<Button>();
         endTurn = GameObject.Find("EndTurnButton").GetComponent<Button>();
 
-        endTurn.onClick.AddListener(() => switchTurn()); ; //.......................................................................................
+        endTurn.onClick.AddListener(() => endPlayerTurn()); ; //.......................................................................................
 
         if (PhotonNetwork.IsMasterClient)
         {
-            pv.RPC("RPCgivePlayerTurn", RpcTarget.Others);
+            pv.RPC("RPCgivePlayerTurn", RpcTarget.Others);//Make this random
         }
 
     }
@@ -133,6 +133,22 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 
                 StartCoroutine(zeroHealth()); //Player Death
             }
+
+            if (timer.getCurrentTimeMode() == "getReady" && !timer.endedTurn && isTurn)
+            {
+                timer.endedTurn = true;
+                endPlayerTurn();
+            }
+
+            if (isTurn)
+            {
+                waitTurn.gameObject.SetActive(false);
+            }
+            else
+            {
+                waitTurn.gameObject.SetActive(true);
+            }
+
             ProcessInputs();
         }
         else
@@ -158,20 +174,6 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
             
             
 
-        }
-
-        if(PhotonNetwork.IsMasterClient && timer.getCurrentTimeMode().Equals("getReady") && !timer.endedTurn)
-        {
-            switchTurn();
-        }
-
-        if (isTurn)
-        {
-            waitTurn.gameObject.SetActive(false);
-        }
-        else
-        {
-           waitTurn.gameObject.SetActive(true);
         }
     }
 
@@ -345,20 +347,10 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         
     }
 
-    public void switchTurn()
+    public void endPlayerTurn()
     {
-        Debug.Log("!timer.endedTurn = " + !timer.endedTurn + " isTurn = " + isTurn);
-        timer.endedTurn = true;
-        if (isTurn)
-        {
-            pv.RPC("RPCgivePlayerTurn", RpcTarget.Others);
-            pv.RPC("RPCendPlayerTurn", RpcTarget.MasterClient);
-        }
-        else 
-        {
-            pv.RPC("RPCgivePlayerTurn", RpcTarget.MasterClient);
-            pv.RPC("RPCendPlayerTurn", RpcTarget.Others);
-        }
+        isTurn = false;
+        pv.RPC("RPCgivePlayerTurn", RpcTarget.Others); //switch to RPCendPlayerTurn
     }
 
     public int RandomPlayerColour()
