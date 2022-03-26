@@ -155,7 +155,7 @@ MonoBehaviour:
   roomScene: 2
   leaderboard: {fileID: 1479788156}
   credits: {fileID: 1477522704}
-  login: {fileID: 326875869}
+  login: {fileID: 0}
   popupBox: {fileID: 816301989}
   exitPopupBtn: {fileID: 87673893}
   errorMessage: {fileID: 880647043}
@@ -1635,7 +1635,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 53803276}
         m_TargetAssemblyTypeName: PhotonLobby, Assembly-CSharp
-        m_MethodName: exitPopup
+        m_MethodName: toggleLogin
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6760,7 +6760,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 53803276}
         m_TargetAssemblyTypeName: PhotonLobby, Assembly-CSharp
-        m_MethodName: exitPopup
+        m_MethodName: toggleCredits
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

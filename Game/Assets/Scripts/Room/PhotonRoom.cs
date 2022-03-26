@@ -87,7 +87,10 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
             gameReady = false;
         }
     }
-
+    /// <summary>
+    /// Send a new player the current time.
+    /// </summary>
+    /// <param name="newPlayer"></param>
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         PlayerCountUpdate();
@@ -97,6 +100,10 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="timeIn"></param>
     [PunRPC]
     private void RPCtimer(float timeIn)
     {
@@ -128,6 +135,9 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
         WaitingForMorePlayers();
     }
 
+    /// <summary>
+    /// set timer to maxWaitTime if a minimum amount of players is not met.
+    /// </summary>
     void ResetTimer()
     {
         timerToStartGame = maxWaitTime;
@@ -135,7 +145,9 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
         fullGameTimer = maxFullGameWaitTime;
     }
 
-
+    /// <summary>
+    /// Determine the length of the countdown depending on the playercount.
+    /// </summary>
     void WaitingForMorePlayers()
     {
         if(playerCount <= 1)
@@ -169,7 +181,9 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
             StartGame();
         }
     }
-    
+    /// <summary>
+    /// Close off room and load the game scenen.
+    /// </summary>
     public void StartGame()
     {
         startingGame = true;
@@ -181,15 +195,21 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
         
     }
 
-    public void DelayCancel()
+    /// <summary>
+    /// Leave the game
+    /// </summary>
+    public void LeaveRoom()
     {
         PhotonNetwork.LeaveRoom();
         SceneManager.LoadScene(lobbyScene);
     }
 
+    /// <summary>
+    /// Enable and disable the map selector
+    /// </summary>
     public void toggleMapSelector()
     {
-        if (mapSelector.active)
+        if (mapSelector.activeSelf)
         {
             mapSelector.SetActive(false);
         }

@@ -87,7 +87,9 @@ public class Timer : MonoBehaviourPun
     }
     
 
-
+    /// <summary>
+    /// Time for camera to stay once the projectile has hit an object
+    /// </summary>
     public void impactTimer()//Time
     {
         time = projectileImpactTime;
@@ -109,7 +111,10 @@ public class Timer : MonoBehaviourPun
     {
         SetTimeMode(nextTimeMode);
     }
-
+    /// <summary>
+    /// Set variables for each game states the current timeMode and next timeMode allocated for these states.
+    /// </summary>
+    /// <param name="setTimeMode">string which specifies what game state is to be set to.</param>
     public void SetTimeMode(string setTimeMode)
     {
         if (setTimeMode == "turn")//Time for player to make their moves.

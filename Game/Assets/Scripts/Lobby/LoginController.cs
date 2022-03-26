@@ -23,6 +23,7 @@ public class LoginController : MonoBehaviour
     private string username;
     private string password;
     private bool verifiedPassword;
+    private Text displayUsername;
 
     private void Start()
     {
@@ -46,12 +47,12 @@ public class LoginController : MonoBehaviour
         {
             PhotonNetwork.NickName = username;
             Debug.Log("Photon Nickname Set!");
+            displayUsername.text = "Username: " + username;
         }
         else
         {
             Debug.Log("Credentials are incorrect. Try again...");
         }
-        Debug.Log("password verified:" + verifiedPassword);
     }
 
 

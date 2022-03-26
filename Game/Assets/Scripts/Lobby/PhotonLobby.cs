@@ -45,25 +45,23 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
     [SerializeField]
     private GameObject JoinRandomButton;
 
+    private LoginController loginController;
+
     //Room setting constants...
     const int MAX_ROOMS_COUNT = 20;
     const int MAX_PLAYER_COUNT = 4;
 
-    /// <summary>
-    /// Creates singleton for the lobby
-    /// </summary>
     private void Awake()
     {
+        //lobby singleton
         lobby = this;
+        //Connects to Photon using settings in the PhotonnServerSettings file.
         PhotonNetwork.ConnectUsingSettings();
     }
 
-    /// <summary>
-    ///  Connects to Photon using settings in the PhotonnServerSettings file.
-    /// </summary>
     void Start()
     {
-
+        loginController = GameObject.Find("LoginController").GetComponent<LoginController>();
     }
 
     /// <summary>
@@ -75,7 +73,9 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
         PhotonNetwork.JoinLobby();//new
         PhotonNetwork.AutomaticallySyncScene = true;
     }
-
+    /// <summary>
+    /// Set username and connect to room
+    /// </summary>
     public void JoinRoom()
     {
         PhotonNetwork.NickName = username.text;
@@ -87,7 +87,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
     /// </summary>
     public void CreateRoom()
     {
-        if ()//Check if user is logged in...
+        if (true)//Check if user is logged in...
         {
             RoomOptions roomOptions = new RoomOptions()
             {
@@ -123,26 +123,6 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
     {
         errorMessage.text = "Failed to create room due to: Identical name to an existing room. Try a different name.";
         popupBox.SetActive(true);
-    }
-
-    public void exitPopup()
-    {
-        if (popupBox.activeSelf)
-        {
-            popupBox.SetActive(false);
-        }
-        if (credits.activeSelf)
-        {
-            credits.SetActive(false);
-        }
-        if (leaderboard.activeSelf)
-        {
-            leaderboard.SetActive(false);
-        }
-        if (login.activeSelf)
-        {
-            login.SetActive(false);
-        }
     }
 
     /// <summary>
@@ -199,7 +179,9 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
         }
 
     }
-
+    /// <summary>
+    /// Toggle the leaderboard popup
+    /// </summary>
     public void toggleLeaderboard()
     {
         if (leaderboard.activeSelf)
@@ -211,7 +193,9 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
             leaderboard.active = true;
         }
     }
-
+    /// <summary>
+    /// Toggle the credits popup
+    /// </summary>
     public void toggleCredits()
     {
         if (credits.activeSelf)
@@ -223,7 +207,9 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
             credits.active = true;
         }
     }
-
+    /// <summary>
+    /// Toggle the login popup
+    /// </summary>
     public void toggleLogin()
     {
         if (login.activeSelf)
