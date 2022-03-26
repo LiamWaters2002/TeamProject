@@ -22,6 +22,8 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
     [SerializeField]
     public GameObject credits;
     [SerializeField]
+    public GameObject login;
+    [SerializeField]
     public GameObject popupBox;
     [SerializeField]
     public Button exitPopupBtn;
@@ -85,7 +87,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
     /// </summary>
     public void CreateRoom()
     {
-        if (username.text != "")
+        if ()//Check if user is logged in...
         {
             RoomOptions roomOptions = new RoomOptions()
             {
@@ -137,7 +139,10 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
         {
             leaderboard.SetActive(false);
         }
-
+        if (login.activeSelf)
+        {
+            login.SetActive(false);
+        }
     }
 
     /// <summary>
@@ -216,6 +221,18 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
         else
         {
             credits.active = true;
+        }
+    }
+
+    public void toggleLogin()
+    {
+        if (login.activeSelf)
+        {
+            login.active = false;
+        }
+        else
+        {
+            login.active = true;
         }
     }
 

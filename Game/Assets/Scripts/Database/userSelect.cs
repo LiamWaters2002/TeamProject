@@ -14,10 +14,10 @@ public class userSelect : MonoBehaviour
         yield return users; //wait until users have been returned.
         string output = users.text;
         usersData = output.Split(';');
-        print( GetUserField(usersData[0], "rank") );//Change to any field
+        print( GetUserField(usersData[0], "username") );//Change to any field
     }
 
-    string GetUserField(string userData, string field)
+    public string GetUserField(string userData, string field)
     {
         field = field + ":";
         string value = userData.Substring(userData.IndexOf(field)+field.Length);//Get everything after "field:"
