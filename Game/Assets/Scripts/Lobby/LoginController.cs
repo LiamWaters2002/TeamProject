@@ -81,7 +81,7 @@ public class LoginController : MonoBehaviour
     public void register()
     {
         bool unique = true;
-        for(int i = 0; i<dbSelect.playersData.Length-1; i++) {
+        for(int i = 0; i < dbSelect.playersData.Length-1; i++) {
             if (dbSelect.GetPlayerStats(dbSelect.playersData[i], "username") == username)
             {
                 unique = false;
