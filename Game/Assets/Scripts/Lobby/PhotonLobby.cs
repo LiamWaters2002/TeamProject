@@ -34,8 +34,8 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
     //Textboxes
     [SerializeField]
     private Text lobbyName;
-    [SerializeField]
-    private Text username;
+    //[SerializeField]
+    //private Text username;
 
     //Lobby Buttons
     [SerializeField]
@@ -78,7 +78,6 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
     /// </summary>
     public void JoinRoom()
     {
-        PhotonNetwork.NickName = username.text;
         PhotonNetwork.JoinRoom(lobbyName.text);
     }
 
@@ -87,7 +86,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
     /// </summary>
     public void CreateRoom()
     {
-        if (true)//Check if user is logged in...
+        if (PhotonNetwork.NickName != "")//Check if user is logged in...
         {
             RoomOptions roomOptions = new RoomOptions()
             {
@@ -130,9 +129,8 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
     /// </summary>
     public void JoinRandomRoom()
     {
-        if (username.text != "")
+        if (PhotonNetwork.NickName != "")
         {
-            PhotonNetwork.NickName = username.text;
             PhotonNetwork.JoinRandomRoom();
         }
         else
@@ -167,9 +165,8 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
     /// </summary>
     public override void OnJoinedRoom()
     {
-        if (username.text != "")
+        if (PhotonNetwork.NickName != "")
         {
-            PhotonNetwork.NickName = username.text;
             SceneManager.LoadScene(roomScene);
         }
         else

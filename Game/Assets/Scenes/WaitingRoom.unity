@@ -866,7 +866,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 153746271}
         m_TargetAssemblyTypeName: PhotonRoom, Assembly-CSharp
-        m_MethodName: DelayCancel
+        m_MethodName: LeaveRoom
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

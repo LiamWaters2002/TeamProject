@@ -200,6 +200,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     /// </summary>
     public void LeaveRoom()
     {
+        Debug.Log("leave room");
         PhotonNetwork.LeaveRoom();
         SceneManager.LoadScene(lobbyScene);
     }

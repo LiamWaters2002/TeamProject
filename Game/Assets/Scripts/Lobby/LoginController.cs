@@ -23,7 +23,7 @@ public class LoginController : MonoBehaviour
     private string username;
     private string password;
     private bool verifiedPassword;
-    private Text displayUsername;
+    public Text displayUsername;
 
     private void Start()
     {
@@ -62,7 +62,6 @@ public class LoginController : MonoBehaviour
     {
         username = usernameField.text;
         password = passwordField.text;
-        Debug.Log("username: " + username + " password: " + password);
     }
 
 
@@ -74,12 +73,15 @@ public class LoginController : MonoBehaviour
             if (dbSelect.GetUserField(dbSelect.usersData[i], "username") == username)
             {
                 unique = false;
+                errorMessage.text = "Username is not unique, try again.";
+                popupBox.SetActive(true);
                 break;
             }
         }
         if (unique)
         {
             dbInsert.AddUser(username, password, "0", "0");
+            login();
         }
         
     }
