@@ -8185,6 +8185,7 @@ MonoBehaviour:
   popupBox: {fileID: 816301989}
   exitPopupBtn: {fileID: 87673893}
   errorMessage: {fileID: 880647043}
+  loginPopup: {fileID: 326875869}
   displayUsername: {fileID: 935945250}
 --- !u!114 &1914475715
 MonoBehaviour:
@@ -8198,7 +8199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a10a2cc2e4f7f844bb90ccfd11f12de7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  usersData: []
+  playersData: []
 --- !u!114 &1914475716
 MonoBehaviour:
   m_ObjectHideFlags: 0
