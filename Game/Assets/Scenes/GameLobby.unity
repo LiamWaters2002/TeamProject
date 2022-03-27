@@ -155,7 +155,7 @@ MonoBehaviour:
   roomScene: 2
   leaderboard: {fileID: 1479788156}
   credits: {fileID: 1477522704}
-  login: {fileID: 0}
+  login: {fileID: 326875869}
   popupBox: {fileID: 816301989}
   exitPopupBtn: {fileID: 87673893}
   errorMessage: {fileID: 880647043}
