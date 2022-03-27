@@ -5,22 +5,28 @@ using UnityEngine;
 public class userSelect : MonoBehaviour
 {
     string link = "https://team25project.000webhostapp.com/userSelect.php";
-    [SerializeField]
-    public string[] usersData;
+    public string[] playersData;
 
+    /// <summary>
+    /// 
+    /// </summary>
     IEnumerator Start()
     {
-        WWW users = new WWW (link);
+        WWW users = new WWW(link);
         yield return users; //wait until users have been returned.
         string output = users.text;
-        usersData = output.Split(';');
-        print( GetUserField(usersData[0], "username") );//Change to any field
+        playersData = output.Split(';');
     }
-
-    public string GetUserField(string userData, string field)
+    /// <summary>
+    /// Use index of the array playersData to get data on a specific user and a specific field.
+    /// </summary>
+    /// <param name="playerData"></param>
+    /// <param name="field"></param>
+    /// <returns></returns>
+    public string GetPlayerStats(string playerData, string field)
     {
         field = field + ":";
-        string value = userData.Substring(userData.IndexOf(field)+field.Length);//Get everything after "field:"
+        string value = playerData.Substring(playerData.IndexOf(field) + field.Length);//Get everything after "field:"
         if (value.Contains("|"))
         {
             value = value.Remove(value.IndexOf("|"));//Remove everything after |
@@ -29,3 +35,4 @@ public class userSelect : MonoBehaviour
 
     }
 }
+

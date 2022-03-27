@@ -5,8 +5,12 @@ using UnityEngine;
 public class userInsert : MonoBehaviour
 {
     string link = "https://team25project.000webhostapp.com/userInsert.php";
-    [SerializeField]
-    public string inputUsername, inputPassword, inputRank, inputKills, inputDeaths;
+
+    public string inputUsername;
+    public string inputPassword;
+    public string inputRank;
+    public string inputKills;
+    public string inputDeaths;
 
     void Update()
     {

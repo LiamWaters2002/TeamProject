@@ -19,6 +19,8 @@ public class LoginController : MonoBehaviour
     public Button exitPopupBtn;
     [SerializeField]
     public Text errorMessage;
+    [SerializeField]
+    public GameObject loginPopup;
 
     private string username;
     private string password;
@@ -32,7 +34,12 @@ public class LoginController : MonoBehaviour
     }
 
 
-
+    /// <summary>
+    /// Verify that an account with that username and password exists in the database.
+    /// </summary>
+    /// <param name="username">Contains the input of the username field</param>
+    /// <param name="password">Contains the input of the password field</param>
+    /// <returns></returns>
     IEnumerator VerifyPassword(string username, string password)
     {
         WWWForm form = new WWWForm();
@@ -48,6 +55,7 @@ public class LoginController : MonoBehaviour
             PhotonNetwork.NickName = username;
             Debug.Log("Photon Nickname Set!");
             displayUsername.text = "Username: " + username;
+            loginPopup.SetActive(false);
         }
         else
         {
@@ -57,7 +65,9 @@ public class LoginController : MonoBehaviour
 
 
 
-
+    /// <summary>
+    /// Store user inputs once they have finished editing the InputFields.
+    /// </summary>
     public void finishEditing()
     {
         username = usernameField.text;
@@ -65,12 +75,14 @@ public class LoginController : MonoBehaviour
     }
 
 
-
+    /// <summary>
+    /// Check if the username is unique.
+    /// </summary>
     public void register()
     {
         bool unique = true;
-        for(int i = 0; i<dbSelect.usersData.Length-1; i++) {
-            if (dbSelect.GetUserField(dbSelect.usersData[i], "username") == username)
+        for(int i = 0; i<dbSelect.playersData.Length-1; i++) {
+            if (dbSelect.GetPlayerStats(dbSelect.playersData[i], "username") == username)
             {
                 unique = false;
                 errorMessage.text = "Username is not unique, try again.";

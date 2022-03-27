@@ -42,7 +42,6 @@ public class Timer : MonoBehaviourPun
         pv = GetComponent<PhotonView>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (!paused)

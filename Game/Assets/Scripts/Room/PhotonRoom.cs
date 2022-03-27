@@ -67,6 +67,9 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
         PlayerCountUpdate();
     }
 
+    /// <summary>
+    /// Detmine how ready the room is based on playercount and maximum playercount within the room.
+    /// </summary>
     void PlayerCountUpdate()
     {
         playerCount = PhotonNetwork.PlayerList.Length;
