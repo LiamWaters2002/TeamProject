@@ -9,8 +9,8 @@ public class LoginController : MonoBehaviour
     string link = "https://team25project.000webhostapp.com/userVerifyPassword.php";
     public InputField usernameField;
     public InputField passwordField;
-    public userInsert dbInsert;
-    public userSelect dbSelect;
+    public DbInsert dbInsert;
+    public DbSelect dbSelect;
 
     //Popup
     [SerializeField]
@@ -29,8 +29,8 @@ public class LoginController : MonoBehaviour
 
     private void Start()
     {
-        dbInsert = GetComponent<userInsert>();
-        dbSelect = GetComponent<userSelect>();
+        dbInsert = GetComponent<DbInsert>();
+        dbSelect = GetComponent<DbSelect>();
     }
 
 
@@ -81,8 +81,9 @@ public class LoginController : MonoBehaviour
     public void register()
     {
         bool unique = true;
-        for(int i = 0; i < dbSelect.playersData.Length-1; i++) {
-            if (dbSelect.GetPlayerStats(dbSelect.playersData[i], "username") == username)
+        string[] playersData = dbSelect.getPlayersData();
+        for (int i = 0; i < playersData.Length-1; i++) {
+            if (dbSelect.GetPlayerStats(playersData[i], "username") == username)
             {
                 unique = false;
                 errorMessage.text = "Username is not unique, try again.";
@@ -92,7 +93,7 @@ public class LoginController : MonoBehaviour
         }
         if (unique)
         {
-            dbInsert.AddUser(username, password, "0", "0");
+            dbInsert.AddUser(username, password, "0", "0", "0");
             login();
         }
         

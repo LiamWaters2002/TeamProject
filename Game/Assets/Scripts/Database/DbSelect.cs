@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class userSelect : MonoBehaviour
+public class DbSelect : MonoBehaviour
 {
-    string link = "https://team25project.000webhostapp.com/userSelect.php";
+    private string link = "https://team25project.000webhostapp.com/userSelect.php";
     public string[] playersData;
 
     /// <summary>
-    /// 
+    /// Get output of data - which is a concatenated string of user data.
+    /// split it into each seperate user
     /// </summary>
     IEnumerator Start()
     {
@@ -32,7 +33,11 @@ public class userSelect : MonoBehaviour
             value = value.Remove(value.IndexOf("|"));//Remove everything after |
         }
         return value;
+    }
 
+    public string[] getPlayersData()
+    {
+        return playersData;
     }
 }
 
