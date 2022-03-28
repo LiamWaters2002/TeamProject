@@ -10,7 +10,10 @@ public class OneWayPlatform : MonoBehaviour
     {
         platform = GetComponent<PlatformEffector2D>();
     }
-
+    /// <summary>
+    /// Flip the collision on the one way platform so that players can
+    /// go through from the top and bottom.
+    /// </summary>
     public void flipCollision()
     {
         
