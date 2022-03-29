@@ -94,7 +94,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
             playerNameText.text = PhotonNetwork.NickName;
 
             //Random Sprites
-            int index = randomPlayerColour();
+            int index = RandomPlayerColour();
             pv.RPC("changePlayerColour", RpcTarget.AllBuffered, index);
 
             //Camera - lines below are to be used later on...
@@ -113,20 +113,9 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 
         endTurn.onClick.AddListener(() => endPlayerTurn()); ; //.......................................................................................
 
-        Debug.Log(PhotonNetwork.IsMasterClient);
         if (PhotonNetwork.IsMasterClient)
         {
-            Debug.Log("We reached here");
-            //Add all players to queue.
-            //foreach (Player player in PhotonNetwork.PlayerList)
-            //{
-            //    Debug.Log("loop");
-            //    playerTurnOrder.Enqueue(player.NickName);
-
-            //}
-            //string whosTurn = playerTurnOrder.Dequeue();
-            pv.RPC("RPCswitchTurn", RpcTarget.Others);     //change to RPCendPlayerTurn
-            //This line above switches it to others...
+            pv.RPC("RPCgivePlayerTurn", RpcTarget.Others);//Make this random
         }
 
     }
@@ -143,7 +132,26 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
                 playerCamera.SetActive(false);
 
                 StartCoroutine(zeroHealth()); //Player Death
+
+                //increment value by 1.
+                //Calculate ratio.
             }
+
+            //if (timer.getCurrentTimeMode() == "getReady" && !timer.endedTurn && isTurn)
+            //{
+                //timer.endedTurn = true;
+                //endPlayerTurn();
+            //}
+
+            if (isTurn)
+            {
+                waitTurn.gameObject.SetActive(false);
+            }
+            else
+            {
+                waitTurn.gameObject.SetActive(true);
+            }
+
             ProcessInputs();
         }
         else
@@ -170,24 +178,6 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
             
 
         }
-
-        try
-        {
-            Vector3 pos = waitTurn.transform.position;
-            if (isTurn)
-            {
-                waitTurn.gameObject.SetActive(false);
-            }
-            else
-            {
-                waitTurn.gameObject.SetActive(true);
-            }
-        }
-        catch (System.NullReferenceException e)
-        {
-            //Object empty
-        }
-
     }
 
     private void smoothMovement()
@@ -287,7 +277,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         if (Input.GetKeyDown(KeyCode.C))
         {
 
-            int index = randomPlayerColour();
+            int index = RandomPlayerColour();
 
             pv.RPC("changePlayerColour", RpcTarget.AllBuffered, index);
 
@@ -360,7 +350,13 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         
     }
 
-    public int randomPlayerColour()
+    public void endPlayerTurn()
+    {
+        isTurn = false;
+        pv.RPC("RPCgivePlayerTurn", RpcTarget.Others); //switch to RPCendPlayerTurn
+    }
+
+    public int RandomPlayerColour()
     {
         int index = Random.Range(0, 4);
         while (takenSprites.Contains(sprites[index]))
@@ -373,31 +369,14 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         return index;
     }
 
-    public void endPlayerTurn()
+    [PunRPC]
+    public void RPCendPlayerTurn()
     {
-        //Debug.Log("endturn");
-        //playerTurnOrder.Enqueue(PhotonNetwork.LocalPlayer.NickName);
-        //string whosTurn = playerTurnOrder.Dequeue();
         isTurn = false;
-        pv.RPC("RPCswitchTurn", RpcTarget.Others); //switch to RPCendPlayerTurn
     }
 
-    //[PunRPC]
-    //public void RPCendPlayerTurn(Queue<string> playerTurnOrder, string whosTurn)
-    //{
-    //    if (PhotonNetwork.NickName == whosTurn)
-    //    {
-    //        isTurn = true;
-    //    }
-    //    else
-    //    {
-    //        isTurn = false;
-    //    }
-    //}
-
-
     [PunRPC]
-    public void RPCswitchTurn()
+    public void RPCgivePlayerTurn()
     {
         isTurn = true;
     }

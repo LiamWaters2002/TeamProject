@@ -22,6 +22,8 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
     [SerializeField]
     public GameObject credits;
     [SerializeField]
+    public GameObject login;
+    [SerializeField]
     public GameObject popupBox;
     [SerializeField]
     public Button exitPopupBtn;
@@ -32,8 +34,8 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
     //Textboxes
     [SerializeField]
     private Text lobbyName;
-    [SerializeField]
-    private Text username;
+    //[SerializeField]
+    //private Text username;
 
     //Lobby Buttons
     [SerializeField]
@@ -43,25 +45,23 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
     [SerializeField]
     private GameObject JoinRandomButton;
 
+    private LoginController loginController;
+
     //Room setting constants...
     const int MAX_ROOMS_COUNT = 20;
     const int MAX_PLAYER_COUNT = 4;
 
-    /// <summary>
-    /// Creates singleton for the lobby
-    /// </summary>
     private void Awake()
     {
+        //lobby singleton
         lobby = this;
+        //Connects to Photon using settings in the PhotonnServerSettings file.
         PhotonNetwork.ConnectUsingSettings();
     }
 
-    /// <summary>
-    ///  Connects to Photon using settings in the PhotonnServerSettings file.
-    /// </summary>
     void Start()
     {
-
+        loginController = GameObject.Find("LoginController").GetComponent<LoginController>();
     }
 
     /// <summary>
@@ -73,10 +73,11 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
         PhotonNetwork.JoinLobby();//new
         PhotonNetwork.AutomaticallySyncScene = true;
     }
-
+    /// <summary>
+    /// Set username and connect to room
+    /// </summary>
     public void JoinRoom()
     {
-        PhotonNetwork.NickName = username.text;
         PhotonNetwork.JoinRoom(lobbyName.text);
     }
 
@@ -85,7 +86,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
     /// </summary>
     public void CreateRoom()
     {
-        if (username.text != "")
+        if (PhotonNetwork.NickName != "")//Check if user is logged in...
         {
             RoomOptions roomOptions = new RoomOptions()
             {
@@ -123,31 +124,13 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
         popupBox.SetActive(true);
     }
 
-    public void exitPopup()
-    {
-        if (popupBox.activeSelf)
-        {
-            popupBox.SetActive(false);
-        }
-        if (credits.activeSelf)
-        {
-            credits.SetActive(false);
-        }
-        if (leaderboard.activeSelf)
-        {
-            leaderboard.SetActive(false);
-        }
-
-    }
-
     /// <summary>
     /// Joins a random room.
     /// </summary>
     public void JoinRandomRoom()
     {
-        if (username.text != "")
+        if (PhotonNetwork.NickName != "")
         {
-            PhotonNetwork.NickName = username.text;
             PhotonNetwork.JoinRandomRoom();
         }
         else
@@ -182,9 +165,8 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
     /// </summary>
     public override void OnJoinedRoom()
     {
-        if (username.text != "")
+        if (PhotonNetwork.NickName != "")
         {
-            PhotonNetwork.NickName = username.text;
             SceneManager.LoadScene(roomScene);
         }
         else
@@ -194,7 +176,9 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
         }
 
     }
-
+    /// <summary>
+    /// Toggle the leaderboard popup
+    /// </summary>
     public void toggleLeaderboard()
     {
         if (leaderboard.activeSelf)
@@ -206,7 +190,9 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
             leaderboard.active = true;
         }
     }
-
+    /// <summary>
+    /// Toggle the credits popup
+    /// </summary>
     public void toggleCredits()
     {
         if (credits.activeSelf)
@@ -216,6 +202,32 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
         else
         {
             credits.active = true;
+        }
+    }
+    /// <summary>
+    /// Toggle the login popup
+    /// </summary>
+    public void toggleLogin()
+    {
+        if (login.activeSelf)
+        {
+            login.active = false;
+        }
+        else
+        {
+            login.active = true;
+        }
+    }
+
+    public void togglePopup()
+    {
+        if (popupBox.activeSelf)
+        {
+            popupBox.active = false;
+        }
+        else
+        {
+            popupBox.active = true;
         }
     }
 

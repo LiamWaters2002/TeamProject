@@ -14,18 +14,12 @@ public class MapController : MonoBehaviour
         {
             if(backgroundName == "Dojo")
             {
-                platform.GetComponent<SpriteRenderer>().color = Color.black;
+                //platform.GetComponent<SpriteRenderer>().color = Color.black;
             }
             else
             {
-                platform.GetComponent<SpriteRenderer>().color = Color.white;
+                //platform.GetComponent<SpriteRenderer>().color = Color.white;
             }
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

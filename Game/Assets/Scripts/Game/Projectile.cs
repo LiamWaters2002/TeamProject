@@ -21,14 +21,12 @@ public class Projectile : MonoBehaviour
     private bool projectileThrown;
     private GameObject thrower;
 
-    // Start is called before the first frame update
     void Start()
     {
         rigidBody = GetComponent<Rigidbody2D>();
         photonView = GetComponent<PhotonView>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (projectileThrown)
@@ -79,8 +77,13 @@ public class Projectile : MonoBehaviour
         rigidBody.isKinematic = true;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="other"></param>
     private void OnTriggerEnter2D(Collider2D other)
     {
+        GameObject blood;
         if (thrower == null && other.gameObject.tag == "Player")//First collision will be the player holding the projectile
         {
             thrower = other.gameObject;
@@ -88,11 +91,13 @@ public class Projectile : MonoBehaviour
         }
         else if(thrower != other.gameObject && other.gameObject.tag == "Player")
         {
+            blood = Instantiate(snowBallEffect, transform.position, transform.rotation);//display blood
             HealthBar health = other.gameObject.GetComponent<HealthBar>();
             health.takeDamage(0.25f);
             Rigidbody2D rigidBody = other.gameObject.GetComponent<Rigidbody2D>();
             rigidBody.velocity = force;
             Destroy(gameObject);
+            waitForSeconds(blood);
         }
 
         //Ignore these collisions
@@ -100,12 +105,9 @@ public class Projectile : MonoBehaviour
         {
             return;
         }
-
-        GameObject blood = Instantiate(snowBallEffect, transform.position, transform.rotation);
         
         Camera camera = new Camera();
         Destroy(gameObject);
-        waitForSeconds(blood);
         waitForSeconds(camera.gameObject);
 
     }
