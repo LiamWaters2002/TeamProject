@@ -24,7 +24,7 @@ public class LeaderboardController : MonoBehaviour
     {
         if (leaderboard.activeSelf)
         {
-            playersData = dbSelect.getPlayersData();
+            playersData = dbSelect.GetPlayersData();
             rankPlayers();
         }
         
