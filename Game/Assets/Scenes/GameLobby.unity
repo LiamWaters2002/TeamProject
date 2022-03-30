@@ -160,6 +160,7 @@ MonoBehaviour:
   exitPopupBtn: {fileID: 87673893}
   errorMessage: {fileID: 880647043}
   lobbyName: {fileID: 1985697117}
+  displayUsername: {fileID: 935945250}
   NewRoomButton: {fileID: 1642731997}
   JoinRoomButton: {fileID: 390193323}
   JoinRandomButton: {fileID: 1904577098}
@@ -8301,6 +8302,7 @@ MonoBehaviour:
   inputKills: 
   inputDeaths: 
   inputKd: 
+  dbSelect: {fileID: 0}
 --- !u!1 &1933305184
 GameObject:
   m_ObjectHideFlags: 0
