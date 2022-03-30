@@ -34,8 +34,8 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
     //Textboxes
     [SerializeField]
     private Text lobbyName;
-
-    public Text displayUsername;
+    //[SerializeField]
+    //private Text username;
 
     //Lobby Buttons
     [SerializeField]
@@ -59,18 +59,9 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, IInRoomCallbacks
         PhotonNetwork.ConnectUsingSettings();
     }
 
-    private void Start()
+    void Start()
     {
         loginController = GameObject.Find("LoginController").GetComponent<LoginController>();
-    }
-
-    private void Update()
-    {
-        if (PhotonNetwork.NickName != "")
-        {
-            displayUsername.text = ("Username: " + PhotonNetwork.NickName);
-        }
-        
     }
 
     /// <summary>
