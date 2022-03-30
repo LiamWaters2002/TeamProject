@@ -187,7 +187,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 
     private void ProcessInputs()
     {
-        isGrounded = Physics2D.OverlapCircle(groundCheckPoint.position, groundCheckRadius, whatIsGround);
+        //isGrounded = Physics2D.OverlapCircle(groundCheckPoint.position, groundCheckRadius, whatIsGround);
         var move = new Vector3(Input.GetAxis("Horizontal"), 0);
 
         if (isTurn && timer.canMove)
@@ -441,6 +441,11 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         if (collision.gameObject.CompareTag("OneWayPlatform"))
         {
             currentOneWayPlatform = collision.gameObject;
+
+        }
+        if (collision.gameObject.CompareTag("OneWayPlatform") || collision.gameObject.CompareTag("Floor"))
+        {
+            isGrounded = true;
         }
     }
 

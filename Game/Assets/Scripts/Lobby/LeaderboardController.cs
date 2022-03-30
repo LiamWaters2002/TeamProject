@@ -22,9 +22,9 @@ public class LeaderboardController : MonoBehaviour
 
     private void Update()
     {
+        playersData = dbSelect.GetPlayersData();
         if (leaderboard.activeSelf)
         {
-            playersData = dbSelect.GetPlayersData();
             rankPlayers();
         }
         
@@ -32,12 +32,14 @@ public class LeaderboardController : MonoBehaviour
 
     public void rankPlayers()
     {
-        for (int i = 0; i < playersData.Length-1; i++)
+        Debug.Log(playersData.Length);
+        for (int i = 0; i < 5; i++)
         {
-            rankedNames[playersData.Length - 2 - i].text = dbSelect.GetPlayerStats(playersData[i], "username");
-            rankedKills[playersData.Length - 2 - i].text = dbSelect.GetPlayerStats(playersData[i], "kills");
-            rankedDeaths[playersData.Length - 2 - i].text = dbSelect.GetPlayerStats(playersData[i], "deaths");
-            rankedKd[playersData.Length - 2 - i].text = dbSelect.GetPlayerStats(playersData[i], "kd");
+            //rankedNames.Length - i
+            rankedNames[i].text = dbSelect.GetPlayerStats(playersData[i], "username");
+            rankedKills[i].text = dbSelect.GetPlayerStats(playersData[i], "kills");
+            rankedDeaths[i].text = dbSelect.GetPlayerStats(playersData[i], "deaths");
+            rankedKd[i].text = dbSelect.GetPlayerStats(playersData[i], "kd");
         }        
     }
 }

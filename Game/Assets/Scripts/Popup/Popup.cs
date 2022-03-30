@@ -24,7 +24,7 @@ public class Popup : MonoBehaviourPun, IPunObservable
         textRematch = GetChildObjectByTag(popupBox, "popupRematchText").GetComponent<Text>();
         btnExit = GetChildObjectByTag(popupBox, "btnExit");
         btnRematch = GetChildObjectByTag(popupBox, "btnRematch");
-        btnSpectate = GetChildObjectByTag(popupBox, "btnSpectate");
+        ////btnSpectate = GetChildObjectByTag(popupBox, "//btnSpectate");
         hidePopup();
     }
 
@@ -45,7 +45,7 @@ public class Popup : MonoBehaviourPun, IPunObservable
         popupBox.SetActive(false);
         btnExit.SetActive(false);
         btnRematch.SetActive(false);
-        btnSpectate.SetActive(false);
+        ////btnSpectate.SetActive(false);
         textRematch.gameObject.SetActive(false);
     }
 
@@ -85,7 +85,7 @@ public class Popup : MonoBehaviourPun, IPunObservable
 
         if (players.Length == 1)
         {
-            btnSpectate.gameObject.SetActive(false);
+            //btnSpectate.gameObject.SetActive(false);
             if (PhotonNetwork.IsMasterClient)
             {
                 btnRematch.gameObject.SetActive(true);
@@ -116,7 +116,7 @@ public class Popup : MonoBehaviourPun, IPunObservable
         textMessage.text = "You died!";
         popupBox.SetActive(true);
         btnExit.gameObject.SetActive(true);
-        btnSpectate.gameObject.SetActive(true);
+        //btnSpectate.gameObject.SetActive(true);
     }
 
     public void winPopup()
