@@ -11,11 +11,11 @@ public class PressAnyKey : MonoBehaviour
     // Update is called once per frame
     void Start()
     {
-        var number = Random.Range(0, 2);
-        canvas[number].SetActive(false);
+        //var number = Random.Range(0, 2);
+        //canvas[number].SetActive(false);
     }
 
-    void Update()   
+    void Update()
     {
         if (Input.anyKey)
         {
