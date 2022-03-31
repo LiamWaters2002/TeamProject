@@ -79,6 +79,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     [SerializeField]
     Button endTurn;
     private bool completeOnce;
+    private bool hasJumped;
 
     void Start()
     {
@@ -87,6 +88,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         playerTurnOrder = new Queue<string>();
         rigidbody = GetComponent<Rigidbody2D>();
         playerCollider = GetComponent<BoxCollider2D>();
+        animator = GetComponent<Animator>();
         trajectory = GameObject.FindObjectOfType<Trajectory>();
         timer = GameObject.Find("TimeManager").GetComponent<Timer>();
         
@@ -141,14 +143,21 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
                 //Calculate ratio.
             }
 
-            if (true && completeOnce && Input.anyKey)
+            if (!completeOnce && Input.anyKey)
             {
                 StartCoroutine(fix());
             }
 
-            if (isGrounded)
+            if (isGrounded || hasJumped == true)
             {
-                //animator.SetBool("hasJumped", false);
+                hasJumped = false;
+                animator.SetBool("hasJumped", false);
+            }
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                //StartCoroutine(fix());
+                hasJumped = true;
+                animator.SetBool("hasJumped", true);
             }
 
             if (isTurn)
@@ -269,7 +278,6 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
             if (isGrounded && (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && !aiming)
             {
                 rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-                animator.SetBool("hasJumped", true);
             }
 
             if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
