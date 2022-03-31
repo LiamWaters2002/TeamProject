@@ -108,7 +108,7 @@ public class Projectile : MonoBehaviour
         
         Camera camera = new Camera();
         Destroy(gameObject);
-        waitForSeconds(camera.gameObject);
+        //waitForSeconds(camera.gameObject);
 
     }
 
