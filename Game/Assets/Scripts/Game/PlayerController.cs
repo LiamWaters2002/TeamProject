@@ -22,6 +22,9 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     private GameObject currentOneWayPlatform;
     private BoxCollider2D playerCollider;
 
+    //animation
+    private Animator animator;
+
     //Fall Damage
     private int playerPhotonID;
     private float playerFallVelY;
@@ -75,6 +78,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     Button waitTurn;
     [SerializeField]
     Button endTurn;
+    private bool completeOnce;
 
     void Start()
     {
@@ -137,11 +141,15 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
                 //Calculate ratio.
             }
 
-            //if (timer.getCurrentTimeMode() == "getReady" && !timer.endedTurn && isTurn)
-            //{
-                //timer.endedTurn = true;
-                //endPlayerTurn();
-            //}
+            if (true && completeOnce && Input.anyKey)
+            {
+                StartCoroutine(fix());
+            }
+
+            if (isGrounded)
+            {
+                //animator.SetBool("hasJumped", false);
+            }
 
             if (isTurn)
             {
@@ -261,6 +269,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
             if (isGrounded && (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && !aiming)
             {
                 rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                animator.SetBool("hasJumped", true);
             }
 
             if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
@@ -441,9 +450,10 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         if (collision.gameObject.CompareTag("OneWayPlatform"))
         {
             currentOneWayPlatform = collision.gameObject;
-
+            isGrounded = true;
         }
-        if (collision.gameObject.CompareTag("OneWayPlatform") || collision.gameObject.CompareTag("Floor"))
+
+        if (collision.gameObject.CompareTag("Floor"))
         {
             isGrounded = true;
         }
@@ -452,6 +462,13 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     private void OnCollisionExit2D(Collision2D collision)
     {
         currentOneWayPlatform = null;
+        isGrounded = false;
+    }
+
+    private IEnumerator fix()
+    {
+        yield return new WaitForSeconds(1f);
+        isGrounded = true;
     }
 
     private IEnumerator zeroHealth()
