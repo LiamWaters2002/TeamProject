@@ -342,23 +342,23 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
             HealthBar health = PhotonView.Find(playerPhotonID).gameObject.GetComponent<HealthBar>();
             if (playerFallVelY <= -70)
             {
-                health.takeDamage(1.0f);
+                health.takeDamage(1f);
             }
             else if (playerFallVelY <= -60)
             {
-                health.takeDamage(0.8f);
+                health.takeDamage(0.025f);
             }
             else if (playerFallVelY <= -50)
             {
-                health.takeDamage(0.4f);
+                health.takeDamage(0.02f);
             }
             else if (playerFallVelY <= -40)
             {
-                health.takeDamage(0.2f);
+                health.takeDamage(0.015f);
             }
             else if (playerFallVelY <= -30)
             {
-                health.takeDamage(0.1f);
+                health.takeDamage(0.01f);
             }
             playerFallVelY = 0;
             playerPhotonID = 0;

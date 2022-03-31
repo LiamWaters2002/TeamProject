@@ -27,7 +27,6 @@ public class LeaderboardController : MonoBehaviour
         {
             rankPlayers();
         }
-        
     }
 
     public void rankPlayers()
